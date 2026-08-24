@@ -1,67 +1,84 @@
 .page {
   min-height: 100vh;
-  padding: 24rpx 32rpx 48rpx;
-  background: #FFFDF8;
+  padding: 28rpx 32rpx 52rpx;
+  background: #FEFCF8;
+}
+
+.page-intro {
+  padding: 4rpx 4rpx 28rpx;
+}
+
+.intro-title {
+  font-size: 38rpx;
+  font-weight: 800;
+  color: #3E345A;
+}
+
+.intro-desc {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #8F829F;
+  line-height: 1.5;
 }
 
 .form-card {
-  padding: 12rpx 30rpx 30rpx;
+  padding: 8rpx 28rpx 30rpx;
 }
 
 .field {
-  padding-top: 26rpx;
+  padding-top: 30rpx;
 }
 
 .label {
   margin-bottom: 14rpx;
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
   font-size: 26rpx;
   font-weight: 700;
-  color: #4C3EA6;
+  color: #3E345A;
+}
+
+.required {
+  color: #EF7F72;
+}
+
+.input,
+.picker,
+.textarea {
+  width: 100%;
+  border: 2rpx solid #E9E1F8;
+  border-radius: 26rpx;
+  background: #FBF8FE;
+  color: #3E345A;
+  font-size: 26rpx;
 }
 
 .input {
-  height: 92rpx;
+  height: 88rpx;
   padding: 0 24rpx;
-  border-radius: 30rpx;
-  background: #F8F6FF;
-  border: 2rpx solid #ECE7FB;
-  font-size: 27rpx;
-}
-
-.placeholder {
-  color: #B7B1C9;
 }
 
 .picker {
-  height: 92rpx;
+  height: 88rpx;
   padding: 0 24rpx;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 30rpx;
-  background: #F8F6FF;
-  border: 2rpx solid #ECE7FB;
-  font-size: 27rpx;
-  color: #333333;
 }
 
 .picker-empty {
-  color: #B7B1C9;
+  color: #B4A9C6;
 }
 
 .picker-arrow {
-  color: #9B86F5;
+  color: #8B6FE8;
   font-size: 30rpx;
 }
 
 .textarea {
-  width: 100%;
   min-height: 240rpx;
-  padding: 24rpx;
-  border-radius: 30rpx;
-  background: #F8F6FF;
-  border: 2rpx solid #ECE7FB;
-  font-size: 27rpx;
+  padding: 22rpx 24rpx;
   line-height: 1.6;
 }
 
@@ -69,7 +86,7 @@
   margin-top: 10rpx;
   text-align: right;
   font-size: 22rpx;
-  color: #B7B1C9;
+  color: #B4A9C6;
 }
 
 .vars-hint {
@@ -79,20 +96,20 @@
 }
 
 .empty-vars {
-  padding: 22rpx 24rpx;
-  border-radius: 28rpx;
-  background: #F8F6FF;
-  color: #B7B1C9;
+  padding: 20rpx 24rpx;
+  border-radius: 26rpx;
+  background: #FBF8FE;
+  color: #B4A9C6;
   font-size: 24rpx;
 }
 
 .var-chip {
-  padding: 10rpx 22rpx;
-  border-radius: 26rpx;
-  background: #EEE9FF;
-  color: #7C5CE0;
-  font-size: 24rpx;
-  font-weight: 600;
+  padding: 10rpx 20rpx;
+  border-radius: 999rpx;
+  background: #F0EAFE;
+  color: #8B6FE8;
+  font-size: 23rpx;
+  font-weight: 700;
 }
 
 .tip-textarea {
@@ -101,20 +118,9 @@
 
 .save-btn {
   margin-top: 32rpx;
-  width: 100%;
-  height: 96rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12rpx;
-  border-radius: 36rpx;
-  background: #9B86F5;
-  color: #FFFFFF;
-  font-size: 30rpx;
-  font-weight: 700;
-  box-shadow: 0 14rpx 28rpx rgba(155, 134, 245, 0.3);
 }
 
 .save-icon {
-  font-size: 30rpx;
+  font-size: 28rpx;
+  font-weight: 800;
 }

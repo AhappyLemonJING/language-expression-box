@@ -1,6 +1,6 @@
 page {
-  background: #FFFDF8;
-  color: #333333;
+  background: #FEFCF8;
+  color: #3E345A;
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
   font-size: 28rpx;
   box-sizing: border-box;
@@ -23,16 +23,22 @@ button {
   border-radius: 0;
   line-height: inherit;
   font-size: inherit;
+  color: inherit;
 }
 
 button::after {
   border: none;
 }
 
+image {
+  display: block;
+}
+
 .card {
   background: #FFFFFF;
-  border-radius: 36rpx;
-  box-shadow: 0 10rpx 28rpx rgba(155, 134, 245, 0.08);
+  border: 2rpx solid #ECE4F8;
+  border-radius: 32rpx;
+  box-shadow: 0 10rpx 30rpx rgba(106, 88, 146, 0.06);
 }
 
 .pill {
@@ -40,47 +46,75 @@ button::after {
   align-items: center;
   justify-content: center;
   height: 56rpx;
-  padding: 0 26rpx;
-  border-radius: 36rpx;
-  font-size: 26rpx;
+  padding: 0 24rpx;
+  border-radius: 999rpx;
+  font-size: 24rpx;
   white-space: nowrap;
 }
 
 .pill-active {
-  background: #9B86F5;
+  background: #8B6FE8;
   color: #FFFFFF;
   font-weight: 600;
 }
 
 .pill-normal {
-  background: #F0EBFF;
-  color: #6F5BD6;
+  background: #FFFFFF;
+  border: 2rpx solid #ECE4F8;
+  color: #6B5D86;
 }
 
 .empty-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 120rpx 60rpx;
+  padding: 110rpx 60rpx 70rpx;
 }
 
 .empty-wrap .empty-img {
-  width: 480rpx;
-  height: 400rpx;
+  width: 430rpx;
+  height: 360rpx;
 }
 
 .empty-wrap .empty-title {
-  margin-top: 24rpx;
+  margin-top: 22rpx;
   font-size: 32rpx;
-  font-weight: 600;
-  color: #333333;
+  font-weight: 700;
+  color: #3E345A;
   text-align: center;
 }
 
 .empty-wrap .empty-desc {
   margin-top: 12rpx;
-  font-size: 26rpx;
-  color: #888888;
+  font-size: 25rpx;
+  color: #8F829F;
   text-align: center;
   line-height: 1.6;
+}
+
+.primary-btn {
+  width: 100%;
+  height: 96rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  border-radius: 28rpx;
+  background: #8B6FE8;
+  color: #FFFFFF;
+  font-size: 30rpx;
+  font-weight: 700;
+  box-shadow: 0 14rpx 28rpx rgba(139, 111, 232, 0.22);
+}
+
+.secondary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10rpx;
+  border-radius: 28rpx;
+  background: #FFFFFF;
+  border: 2rpx solid #ECE4F8;
+  color: #5C4F7B;
+  font-weight: 600;
 }

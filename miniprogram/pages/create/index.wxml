@@ -1,32 +1,45 @@
 <view class="page">
+  <view class="page-intro">
+    <view class="intro-title">新建专属话术</view>
+    <view class="intro-desc">写下你的表达习惯，之后在“我的话术”里随时调用</view>
+  </view>
+
   <view class="form-card card">
     <view class="field">
-      <view class="label">标题</view>
+      <view class="label">
+        <text>标题</text>
+        <text class="required">*</text>
+      </view>
       <input class="input" placeholder="例如：拒绝同事拼单" placeholder-class="placeholder" value="{{form.title}}" data-key="title" bindinput="onInput" />
     </view>
 
     <view class="field">
-      <view class="label">场景</view>
+      <view class="label">
+        <text>使用场景</text>
+      </view>
       <picker mode="selector" range="{{scenarios}}" value="{{scenarioIndex}}" bindchange="onScenarioChange">
         <view class="picker {{form.scenario ? '' : 'picker-empty'}}">
-          {{form.scenario || '请选择场景'}}
+          <text>{{form.scenario || '请选择场景'}}</text>
           <text class="picker-arrow">⌄</text>
         </view>
       </picker>
     </view>
 
     <view class="field">
-      <view class="label">正文</view>
+      <view class="label">
+        <text>话术正文</text>
+        <text class="required">*</text>
+      </view>
       <textarea class="textarea" placeholder="输入话术正文，用 ${称呼} 这样的格式插入变量" placeholder-class="placeholder" value="{{form.content}}" data-key="content" bindinput="onContentInput" maxlength="-1" />
       <view class="counter">{{contentLength}} 字</view>
     </view>
 
     <view class="field">
-      <view class="label">变量</view>
+      <view class="label">识别到的变量</view>
       <view class="vars-hint" wx:if="{{variables.length}}">
         <view class="var-chip" wx:for="{{variables}}" wx:key="*this">${ {{item}} }</view>
       </view>
-      <view class="vars-hint empty-vars" wx:else>尚未检测到变量，正文里输入 ${名称} 即可自动识别</view>
+      <view class="vars-hint empty-vars" wx:else>正文里输入 ${名称} 即可自动识别</view>
     </view>
 
     <view class="field">
@@ -35,8 +48,8 @@
     </view>
   </view>
 
-  <button class="save-btn" bindtap="onSaveTap">
-    <text class="save-icon">💾</text>
+  <button class="primary-btn save-btn" bindtap="onSaveTap">
+    <text class="save-icon">✓</text>
     <text>保存话术</text>
   </button>
 </view>

@@ -24,7 +24,10 @@ Page({
     const all = stored.length ? stored : ledgerRecords;
     const record = all.find((item) => item.id === id) || all[0];
     this.setData({
-      record,
+      record: {
+        ...record,
+        initial: (record.contact || "未").slice(0, 1),
+      },
       feedback: record.feedback || "",
       reminderDate: todayString(),
     });

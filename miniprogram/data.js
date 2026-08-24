@@ -345,15 +345,15 @@ const detailPhrases = {
 };
 
 const categories = [
-  { id: "work", icon: "💼", name: "职场办公", desc: "汇报、沟通、项目管理", color: "#E7DFFF", accent: "#9B86F5" },
-  { id: "social", icon: "🤝", name: "人情社交", desc: "见面、寒暄、人情往来", color: "#FFE8D9", accent: "#FFB870" },
-  { id: "refuse", icon: "❌", name: "拒绝专区", desc: "借钱、甩活、不合理请求", color: "#FFE3EA", accent: "#FF9DBC" },
-  { id: "apology", icon: "🙏", name: "道歉&安抚", desc: "认错、修复、安抚情绪", color: "#E3F6EF", accent: "#7CD9AF" },
-  { id: "blessing", icon: "💬", name: "祝福问候", desc: "节日、喜事、日常问候", color: "#FFE9F1", accent: "#FFB8CB" },
-  { id: "rights", icon: "🛒", name: "售后维权", desc: "退换货、投诉、协商", color: "#E9E2FF", accent: "#8F7BE0" },
-  { id: "dating", icon: "💞", name: "情感相亲", desc: "开场、邀约、升温", color: "#FDE3E4", accent: "#F28B9B" },
-  { id: "school", icon: "🎓", name: "学生校园", desc: "师生、家校、同学沟通", color: "#DDF3E8", accent: "#6CCDA4" },
-  { id: "custom", icon: "✍️", name: "自定义场景", desc: "创建你的专属话术", color: "#FDF3D8", accent: "#F2C14E" },
+  { id: "work", icon: "💼", name: "职场办公", desc: "汇报、沟通、项目管理", color: "#F0EAFE", accent: "#8B6FE8" },
+  { id: "social", icon: "🤝", name: "人情社交", desc: "见面、寒暄、人情往来", color: "#FFF0E8", accent: "#DF7C62" },
+  { id: "refuse", icon: "❌", name: "拒绝专区", desc: "借钱、甩活、不合理请求", color: "#FFEDE9", accent: "#E77B68" },
+  { id: "apology", icon: "🙏", name: "道歉&安抚", desc: "认错、修复、安抚情绪", color: "#E7F6EF", accent: "#39A87F" },
+  { id: "blessing", icon: "💬", name: "祝福问候", desc: "节日、喜事、日常问候", color: "#FFF3DC", accent: "#C58A22" },
+  { id: "rights", icon: "🛒", name: "售后维权", desc: "退换货、投诉、协商", color: "#EEE7FD", accent: "#8068DD" },
+  { id: "dating", icon: "💞", name: "情感相亲", desc: "开场、邀约、升温", color: "#FFE7EE", accent: "#D26883" },
+  { id: "school", icon: "🎓", name: "学生校园", desc: "师生、家校、同学沟通", color: "#E7F6EF", accent: "#43B98F" },
+  { id: "custom", icon: "✍️", name: "自定义场景", desc: "创建你的专属话术", color: "#F6EFFB", accent: "#9C8FB1" },
 ];
 
 const ledgerRecords = [

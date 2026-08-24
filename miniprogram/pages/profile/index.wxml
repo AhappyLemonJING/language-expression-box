@@ -1,5 +1,7 @@
 <view class="page">
-  <view class="profile-head">
+  <view class="profile-hero">
+    <view class="hero-stripe stripe-one"></view>
+    <view class="hero-stripe stripe-two"></view>
     <view class="avatar-ring">
       <view class="avatar-inner">话</view>
     </view>
@@ -7,13 +9,15 @@
       <view class="nickname">话术达人</view>
       <view class="profile-sub">今天也把沟通安排得明明白白</view>
     </view>
+    <view class="hero-level">Lv.1</view>
   </view>
 
+  <view class="section-head">我的服务</view>
   <view class="menu card">
     <view class="menu-item" wx:for="{{menus}}" wx:key="name" bindtap="onMenuTap" data-name="{{item.name}}">
       <view class="menu-icon" style="background: {{item.color}};">{{item.icon}}</view>
       <view class="menu-name">{{item.name}}</view>
-      <view class="menu-arrow">›</view>
+      <view class="menu-arrow">→</view>
     </view>
   </view>
 

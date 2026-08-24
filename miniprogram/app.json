@@ -10,16 +10,16 @@
     "pages/profile/index"
   ],
   "window": {
-    "backgroundColor": "#FFFDF8",
+    "backgroundColor": "#FEFCF8",
     "backgroundTextStyle": "dark",
-    "navigationBarBackgroundColor": "#FFFDF8",
+    "navigationBarBackgroundColor": "#FEFCF8",
     "navigationBarTitleText": "话术盒子",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "color": "#A8A0B8",
-    "selectedColor": "#9B86F5",
-    "backgroundColor": "#FFFDF8",
+    "color": "#B4A9C6",
+    "selectedColor": "#8B6FE8",
+    "backgroundColor": "#FEFCF8",
     "borderStyle": "white",
     "list": [
       {

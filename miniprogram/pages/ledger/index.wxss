@@ -1,12 +1,52 @@
 .page {
   min-height: 100vh;
-  padding: 24rpx 0 48rpx;
-  background: #FFFDF8;
+  padding: 28rpx 0 56rpx;
+  background: #FEFCF8;
+}
+
+.stats-row {
+  display: flex;
+  gap: 16rpx;
+  padding: 0 32rpx;
+}
+
+.stat-card {
+  flex: 1;
+  min-height: 112rpx;
+  padding: 20rpx 22rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 2rpx solid #ECE4F8;
+  border-radius: 32rpx;
+  background: #FFFFFF;
+}
+
+.stat-count {
+  font-size: 36rpx;
+  font-weight: 800;
+  color: #3E345A;
+  line-height: 1;
+}
+
+.stat-pending {
+  color: #DCA246;
+}
+
+.stat-closed {
+  color: #43B98F;
+}
+
+.stat-label {
+  margin-top: 10rpx;
+  font-size: 21rpx;
+  color: #8F829F;
 }
 
 .filter-scroll {
   width: 100%;
   white-space: nowrap;
+  margin-top: 30rpx;
   padding-left: 32rpx;
 }
 
@@ -16,7 +56,7 @@
 }
 
 .filter-pill {
-  margin-right: 16rpx;
+  margin-right: 14rpx;
 }
 
 .list {
@@ -26,83 +66,121 @@
 
 .ledger-card {
   margin-bottom: 20rpx;
-  padding: 28rpx;
+  padding: 26rpx;
 }
 
 .ledger-head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+}
+
+.contact-avatar {
+  width: 68rpx;
+  height: 68rpx;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 28rpx;
+  background: #F0EAFE;
+  color: #8B6FE8;
+  font-size: 28rpx;
+  font-weight: 800;
+}
+
+.contact-block {
+  flex: 1;
+  min-width: 0;
+  margin-left: 18rpx;
 }
 
 .contact {
-  font-size: 31rpx;
-  font-weight: 700;
-  color: #333333;
+  font-size: 29rpx;
+  font-weight: 800;
+  color: #3E345A;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.send-time {
+  margin-top: 6rpx;
+  font-size: 21rpx;
+  color: #B4A9C6;
 }
 
 .status {
-  padding: 6rpx 20rpx;
-  border-radius: 28rpx;
-  font-size: 22rpx;
-  font-weight: 700;
+  flex-shrink: 0;
+  height: 42rpx;
+  padding: 0 14rpx;
+  display: flex;
+  align-items: center;
+  border-radius: 999rpx;
+  font-size: 20rpx;
+  font-weight: 800;
 }
 
 .status-pending {
-  background: #FFF3C9;
-  color: #C39216;
+  background: #FFF3DC;
+  color: #C58A22;
 }
 
 .status-closed {
-  background: #DFF6E9;
-  color: #2F9E6E;
+  background: #E7F6EF;
+  color: #39A87F;
 }
 
 .status-overdue {
-  background: #FFE4CE;
-  color: #E0782D;
+  background: #FFEDE9;
+  color: #E77B68;
 }
 
-.phrase-title,
-.send-time {
-  margin-top: 12rpx;
+.phrase-title {
+  margin-top: 22rpx;
   font-size: 24rpx;
-  color: #77728A;
+  color: #6F638A;
 }
 
 .note {
-  margin-top: 16rpx;
-  padding: 18rpx 22rpx;
-  border-radius: 24rpx;
-  background: #F8F6FF;
-  color: #6F6580;
-  font-size: 24rpx;
+  margin-top: 14rpx;
+  padding: 18rpx 20rpx;
+  border-radius: 22rpx;
+  background: #FBF8FE;
+  color: #6B5D86;
+  font-size: 23rpx;
   line-height: 1.55;
 }
 
 .ledger-actions {
   margin-top: 20rpx;
   display: flex;
-  gap: 16rpx;
+  gap: 14rpx;
 }
 
 .ledger-btn {
   flex: 1;
-  height: 72rpx;
+  height: 70rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 30rpx;
-  background: #F3EFFF;
-  color: #6F5BD6;
+  gap: 8rpx;
+  border: 2rpx solid #E9E1F8;
+  border-radius: 22rpx;
+  background: #FFFFFF;
+  color: #5C4F7B;
+  font-size: 23rpx;
+  font-weight: 700;
+}
+
+.btn-icon {
   font-size: 24rpx;
-  font-weight: 600;
 }
 
 .close-btn {
-  background: #9B86F5;
+  background: #8B6FE8;
+  border-color: #8B6FE8;
   color: #FFFFFF;
-  box-shadow: 0 8rpx 18rpx rgba(155, 134, 245, 0.24);
+  box-shadow: 0 8rpx 18rpx rgba(139, 111, 232, 0.18);
 }
 
 .close-mask {
@@ -112,7 +190,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(51, 42, 72, 0.28);
+  background: rgba(73, 58, 105, 0.42);
 }
 
 .sparkle-card {
@@ -123,9 +201,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 44rpx;
+  border-radius: 32rpx;
   background: #FFFFFF;
-  box-shadow: 0 20rpx 60rpx rgba(75, 58, 128, 0.25);
+  box-shadow: 0 20rpx 60rpx rgba(73, 58, 105, 0.28);
   animation: popIn 0.3s ease-out;
 }
 
@@ -137,14 +215,14 @@
 .spark-title {
   margin-top: 6rpx;
   font-size: 30rpx;
-  font-weight: 700;
-  color: #333333;
+  font-weight: 800;
+  color: #3E345A;
 }
 
 .spark-star {
   position: absolute;
   font-size: 34rpx;
-  color: #FFD06B;
+  color: #F2C46D;
   animation: sparkleFly 0.9s ease-out infinite;
 }
 
@@ -156,14 +234,14 @@
 .s2 {
   right: 66rpx;
   top: 118rpx;
-  color: #FF9DBC;
+  color: #F3A0B1;
   animation-delay: 0.15s;
 }
 
 .s3 {
   left: 108rpx;
   bottom: 72rpx;
-  color: #7CD9AF;
+  color: #43B98F;
   animation-delay: 0.3s;
 }
 

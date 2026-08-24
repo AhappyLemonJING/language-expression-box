@@ -1,4 +1,19 @@
 <view class="page">
+  <view class="stats-row">
+    <view class="stat-card">
+      <view class="stat-count">{{stats.all}}</view>
+      <view class="stat-label">全部记录</view>
+    </view>
+    <view class="stat-card">
+      <view class="stat-count stat-pending">{{stats.pending}}</view>
+      <view class="stat-label">待跟进</view>
+    </view>
+    <view class="stat-card">
+      <view class="stat-count stat-closed">{{stats.closed}}</view>
+      <view class="stat-label">已闭环</view>
+    </view>
+  </view>
+
   <scroll-view class="filter-scroll" scroll-x enhanced show-scrollbar="{{false}}">
     <view class="filter-row">
       <view
@@ -14,15 +29,24 @@
   <view class="list">
     <view class="ledger-card card" wx:for="{{filteredRecords}}" wx:key="id" data-id="{{item.id}}" bindtap="onDetailTap">
       <view class="ledger-head">
-        <view class="contact">{{item.contact || '未命名对象'}}</view>
+        <view class="contact-avatar">{{item.initial}}</view>
+        <view class="contact-block">
+          <view class="contact">{{item.contact || '未命名对象'}}</view>
+          <view class="send-time">{{item.time}}</view>
+        </view>
         <view class="status status-{{item.statusClass}}">{{item.status}}</view>
       </view>
-      <view class="phrase-title">话术：{{item.phraseTitle}}</view>
-      <view class="send-time">发送时间：{{item.time}}</view>
+      <view class="phrase-title">话术 · {{item.phraseTitle}}</view>
       <view class="note" wx:if="{{item.note}}">{{item.note}}</view>
       <view class="ledger-actions">
-        <view class="ledger-btn" data-id="{{item.id}}" catchtap="onEditTap">编辑跟进记录</view>
-        <view class="ledger-btn close-btn" data-id="{{item.id}}" catchtap="onCloseTap">标记闭环</view>
+        <view class="ledger-btn" data-id="{{item.id}}" catchtap="onEditTap">
+          <text class="btn-icon">✎</text>
+          <text>跟进记录</text>
+        </view>
+        <view class="ledger-btn close-btn" data-id="{{item.id}}" catchtap="onCloseTap">
+          <text class="btn-icon">✓</text>
+          <text>标记闭环</text>
+        </view>
       </view>
     </view>
 

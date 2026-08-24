@@ -4,13 +4,32 @@ const {
   newPhrases,
 } = require("../../data.js");
 
-const tagColors = ["#9B86F5", "#FF9D6C", "#5FC7A0", "#FF9DBC", "#F2B84B"];
+const tagMeta = {
+  职场沟通: { color: "#8B6FE8", bg: "#F0EAFE", icon: "💼" },
+  人情往来: { color: "#CF7A55", bg: "#FFF0E8", icon: "🤝" },
+  拒绝话术: { color: "#E77B68", bg: "#FFEDE9", icon: "🙅" },
+  道歉致歉: { color: "#C58A22", bg: "#FFF3DC", icon: "🙏" },
+  送礼祝福: { color: "#D26883", bg: "#FFE7EE", icon: "🎁" },
+  售后维权: { color: "#39A87F", bg: "#E7F6EF", icon: "🧾" },
+  相亲社交: { color: "#D26883", bg: "#FFE7EE", icon: "💬" },
+  学生校园: { color: "#39A87F", bg: "#E7F6EF", icon: "🎓" },
+  人情社交: { color: "#CF7A55", bg: "#FFF0E8", icon: "🤝" },
+};
 
 function decorate(list) {
-  return list.map((item, index) => ({
-    ...item,
-    tagColor: tagColors[index % tagColors.length],
-  }));
+  return list.map((item) => {
+    const meta = tagMeta[item.tag] || {
+      color: "#8B6FE8",
+      bg: "#F0EAFE",
+      icon: "💬",
+    };
+    return {
+      ...item,
+      tagColor: meta.color,
+      tagBgColor: meta.bg,
+      riskIcon: meta.icon,
+    };
+  });
 }
 
 Page({

@@ -3,7 +3,7 @@
     <text class="search-icon">🔍</text>
     <input
       class="search-input"
-      placeholder="搜索分类或话术"
+      placeholder="搜索分类或话术场景"
       placeholder-class="search-placeholder"
       confirm-type="search"
       bindinput="onSearchInput"
@@ -12,21 +12,31 @@
     <view class="search-clear" wx:if="{{keyword}}" bindtap="onClearSearch">✕</view>
   </view>
 
+  <view class="result-row">
+    <text class="result-title">全部场景</text>
+    <text class="result-count">{{filteredCategories.length}} 个分类</text>
+  </view>
+
   <view class="grid">
     <view
       wx:for="{{filteredCategories}}"
       wx:key="id"
-      class="cat-card card"
-      style="background: {{item.color}}; border-color: {{item.accent}};"
+      class="cat-card card {{item.id === 'custom' ? 'cat-custom' : ''}}"
       data-id="{{item.id}}"
       bindtap="onCategoryTap"
     >
-      <view class="cat-illustration" style="background: {{item.accent}};">
-        <text class="cat-icon">{{item.icon}}</text>
+      <view class="cat-card-head">
+        <view class="cat-icon-box" style="background: {{item.color}}; color: {{item.accent}};">
+          <text class="cat-icon">{{item.icon}}</text>
+        </view>
+        <view class="cat-arrow">
+          <text>→</text>
+        </view>
       </view>
       <view class="cat-name">{{item.name}}</view>
       <view class="cat-desc">{{item.desc}}</view>
-      <view class="cat-arrow" style="color: {{item.accent}};">›</view>
+      <view class="cat-count" wx:if="{{item.id === 'custom'}}">从零开始创建</view>
+      <view class="cat-count" wx:else>查看示例 →</view>
     </view>
   </view>
 

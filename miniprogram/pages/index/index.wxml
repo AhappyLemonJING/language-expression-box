@@ -1,15 +1,23 @@
 <view class="page">
   <view class="nav" style="padding-top: {{statusBarHeight}}px;">
     <view class="nav-inner">
-      <view class="nav-title">话术盒子</view>
-      <view class="nav-bell" bindtap="onBellTap">🔔</view>
+      <view class="brand-mark">话</view>
+      <view class="brand-copy">
+        <view class="brand-title">话术盒子</view>
+        <view class="brand-sub">把难说的话，说得漂亮</view>
+      </view>
+      <view class="nav-bell" bindtap="onBellTap">
+        <text class="bell-icon">🔔</text>
+        <view class="bell-dot"></view>
+      </view>
     </view>
   </view>
 
   <view class="body" style="padding-top: {{navHeight}}px;">
     <view class="search-box" bindtap="onSearchTap">
       <text class="search-icon">🔍</text>
-      <text class="search-placeholder">搜索话术，例如：拒绝别人借钱、婚礼敬酒、项目延期通知</text>
+      <text class="search-placeholder">搜索话术：拒绝借钱、婚礼敬酒、项目延期…</text>
+      <view class="search-enter">搜索</view>
     </view>
 
     <scroll-view class="tag-scroll" scroll-x enhanced show-scrollbar="{{false}}">
@@ -17,20 +25,26 @@
         <view
           wx:for="{{tags}}"
           wx:key="*this"
-          class="pill tag {{activeTag === item ? 'pill-active' : 'tag-normal'}}"
+          class="pill tag {{activeTag === item ? 'pill-active' : 'pill-normal'}}"
           data-tag="{{item}}"
           bindtap="onTagTap"
         >{{item}}</view>
       </view>
     </scroll-view>
 
-    <view class="section">
+    <view class="section hot-section">
       <view class="section-head">
-        <view class="section-title">
-          <text class="fire">🔥</text>
-          <text>今日热门话术</text>
+        <view>
+          <view class="section-title">
+            <text class="title-dot dot-blue"></text>
+            <text>今日热门话术</text>
+          </view>
+          <view class="section-sub">遇到难开口的事，先从这里找一句</view>
         </view>
-        <view class="section-more" bindtap="onMoreTap">查看更多</view>
+        <view class="section-more" bindtap="onMoreTap">
+          <text>更多</text>
+          <text class="more-arrow">→</text>
+        </view>
       </view>
       <scroll-view class="hot-scroll" scroll-x enhanced show-scrollbar="{{false}}">
         <view class="hot-row">
@@ -41,9 +55,13 @@
             data-id="{{item.id}}"
             bindtap="onPhraseTap"
           >
+            <view class="hot-card-top">
+              <text class="hot-rank">0{{index + 1}}</text>
+              <text class="hot-tag" style="color: {{item.tagColor}}; background: {{item.tagBgColor}};">{{item.tag}}</text>
+            </view>
             <view class="hot-title">{{item.title}}</view>
             <view class="hot-preview">{{item.preview}}</view>
-            <view class="hot-tag" style="color: {{item.tagColor}};">{{item.tag}}</view>
+            <view class="hot-open">查看完整话术 →</view>
           </view>
         </view>
       </scroll-view>
@@ -51,9 +69,12 @@
 
     <view class="section">
       <view class="section-head">
-        <view class="section-title">
-          <text class="warn">⚠️</text>
-          <text>高风险沟通专区</text>
+        <view>
+          <view class="section-title">
+            <text class="title-dot dot-coral"></text>
+            <text>高风险沟通专区</text>
+          </view>
+          <view class="section-sub">先稳住关系，再把话说清楚</view>
         </view>
       </view>
       <view class="risk-grid">
@@ -64,12 +85,15 @@
           data-id="{{item.id}}"
           bindtap="onPhraseTap"
         >
-          <view class="risk-badge">{{item.risk}}</view>
+          <view class="risk-card-head">
+            <view class="risk-icon">{{item.riskIcon}}</view>
+            <view class="risk-badge">{{item.risk}}</view>
+          </view>
           <view class="risk-title">{{item.title}}</view>
           <view class="risk-preview">{{item.preview}}</view>
           <view class="risk-foot">
             <text class="risk-tag">{{item.tag}}</text>
-            <text class="risk-arrow">›</text>
+            <text class="risk-arrow">→</text>
           </view>
         </view>
       </view>
@@ -77,24 +101,29 @@
 
     <view class="section">
       <view class="section-head">
-        <view class="section-title">
-          <text class="new-icon">🆕</text>
-          <text>最近上新话术</text>
+        <view>
+          <view class="section-title">
+            <text class="title-dot dot-green"></text>
+            <text>最近上新</text>
+          </view>
+          <view class="section-sub">刚刚加入的沟通灵感</view>
         </view>
       </view>
-      <view class="new-list">
+      <view class="new-list card">
         <view
           wx:for="{{newList}}"
           wx:key="id"
-          class="new-item"
+          class="new-item {{index === newList.length - 1 ? 'new-item-last' : ''}}"
           data-id="{{item.id}}"
           bindtap="onPhraseTap"
         >
+          <view class="new-index">0{{index + 1}}</view>
           <view class="new-main">
             <view class="new-title">{{item.title}}</view>
             <view class="new-preview">{{item.preview}}</view>
           </view>
-          <view class="new-tag">{{item.tag}}</view>
+          <text class="new-tag" style="color: {{item.tagColor}};">{{item.tag}}</text>
+          <text class="new-arrow">→</text>
         </view>
       </view>
     </view>

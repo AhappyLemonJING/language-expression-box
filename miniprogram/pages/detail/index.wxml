@@ -2,11 +2,11 @@
 <view class="page">
   <view class="nav" style="padding-top: {{statusBarHeight}}px;">
     <view class="nav-inner">
-      <view class="nav-btn" bindtap="onBack">‹</view>
+      <view class="nav-btn" bindtap="onBack">←</view>
       <view class="nav-title">{{phrase.title}}</view>
       <view class="nav-right">
-        <view class="nav-btn star {{favorite ? 'star-active' : ''}}" bindtap="onFavoriteTap">⭐</view>
-        <view class="nav-btn" bindtap="onShareTap">🔗</view>
+        <view class="nav-btn star {{favorite ? 'star-active' : ''}}" bindtap="onFavoriteTap">{{favorite ? '★' : '☆'}}</view>
+        <view class="nav-btn" bindtap="onShareTap">↗</view>
       </view>
     </view>
   </view>
@@ -15,6 +15,8 @@
     <view class="meta-row">
       <view class="scenario-pill">{{phrase.scenario}}</view>
       <view class="risk-pill {{riskClass}}">{{phrase.risk}}</view>
+      <view class="meta-spacer"></view>
+      <view class="copy-mini" bindtap="onCopyTap">复制</view>
     </view>
 
     <view class="tip-bubble">
@@ -22,25 +24,42 @@
       <view class="tip-text">{{phrase.tip}}</view>
     </view>
 
-    <view class="variant-tabs">
-      <view
-        wx:for="{{variantTabs}}"
-        wx:key="name"
-        class="variant-tab {{activeVariant === index ? 'variant-active' : ''}}"
-        data-index="{{index}}"
-        bindtap="onVariantTap"
-      >
-        <text class="variant-icon">{{item.icon}}</text>
-        <text class="variant-name">{{item.name}}</text>
+    <view class="section-label">
+      <text>选择表达版本</text>
+      <text class="section-note">不同语气，同一件事</text>
+    </view>
+
+    <scroll-view class="variant-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+      <view class="variant-row">
+        <view
+          wx:for="{{variantTabs}}"
+          wx:key="name"
+          class="variant-tab {{activeVariant === index ? 'variant-active' : ''}}"
+          data-index="{{index}}"
+          bindtap="onVariantTap"
+        >
+          <text class="variant-icon">{{item.icon}}</text>
+          <text class="variant-name">{{item.name}}</text>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="phrase-box">
+      <view class="phrase-quote">“</view>
+      <view class="phrase-content">
+        <rich-text nodes="{{hl.highlight(currentContent)}}"></rich-text>
       </view>
     </view>
 
-    <view class="phrase-box">
-      <rich-text nodes="{{hl.highlight(currentContent)}}"></rich-text>
-    </view>
+    <view class="form-card card">
+      <view class="form-title">
+        <view class="form-title-icon">✏️</view>
+        <view>
+          <view class="form-title-main">填写变量</view>
+          <view class="form-title-sub">生成你的专属话术</view>
+        </view>
+      </view>
 
-    <view class="form-card">
-      <view class="form-title">填写变量，一键生成你的专属话术</view>
       <view class="form-fields">
         <view class="form-field" wx:for="{{phrase.variables}}" wx:key="key">
           <view class="field-label">{{item.key}}</view>
@@ -54,33 +73,40 @@
           />
         </view>
       </view>
+
       <button class="generate-btn" bindtap="onGenerateTap">
         <text class="generate-icon">✨</text>
         <text>一键填充生成</text>
       </button>
+
       <view class="generate-result" wx:if="{{generated}}">
-        <view class="result-title">生成结果</view>
+        <view class="result-head">
+          <text class="result-title">生成结果</text>
+          <text class="result-copy" bindtap="onCopyTap">复制</text>
+        </view>
         <rich-text class="result-text" nodes="{{hl.highlight(generatedContent)}}"></rich-text>
       </view>
     </view>
   </view>
 
   <view class="action-bar" style="padding-bottom: {{safeBottom}}px;">
-    <view class="action-btn" bindtap="onCopyTap">
+    <button class="action-btn action-primary" bindtap="onCopyTap">
       <text class="action-icon">📋</text>
       <text class="action-label">一键复制</text>
-    </view>
-    <view class="action-btn" bindtap="onRemindTap">
-      <text class="action-icon">⏰</text>
-      <text class="action-label">发送提醒</text>
-    </view>
-    <view class="action-btn" bindtap="onLedgerTap">
-      <text class="action-icon">📝</text>
-      <text class="action-label">加入台账</text>
-    </view>
-    <view class="action-btn ai-btn" bindtap="onAiTap">
-      <text class="action-icon">✨</text>
-      <text class="action-label">AI润色</text>
+    </button>
+    <view class="action-mini">
+      <button class="action-btn" bindtap="onRemindTap">
+        <text class="action-icon">⏰</text>
+        <text class="action-label">提醒</text>
+      </button>
+      <button class="action-btn" bindtap="onLedgerTap">
+        <text class="action-icon">📝</text>
+        <text class="action-label">台账</text>
+      </button>
+      <button class="action-btn action-ai" bindtap="onAiTap">
+        <text class="action-icon">✨</text>
+        <text class="action-label">润色</text>
+      </button>
     </view>
   </view>
 
@@ -106,12 +132,19 @@
   <view class="remind-pop" wx:if="{{showRemind}}">
     <view class="remind-card">
       <view class="remind-title">设置发送提醒</view>
+      <view class="remind-sub">提醒自己别错过发送时机</view>
       <view class="remind-row">
         <picker mode="date" value="{{remindDate}}" bindchange="onRemindDateChange">
-          <view class="remind-picker">📅 {{remindDate}}</view>
+          <view class="remind-picker">
+            <text class="remind-icon">📅</text>
+            <text>{{remindDate}}</text>
+          </view>
         </picker>
         <picker mode="time" value="{{remindTime}}" bindchange="onRemindTimeChange">
-          <view class="remind-picker">⏰ {{remindTime}}</view>
+          <view class="remind-picker">
+            <text class="remind-icon">⏰</text>
+            <text>{{remindTime}}</text>
+          </view>
         </picker>
       </view>
       <view class="remind-actions">
