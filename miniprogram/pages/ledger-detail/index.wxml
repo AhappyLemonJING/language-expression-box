@@ -1,0 +1,41 @@
+<view class="page">
+  <view class="head-card card" wx:if="{{record}}">
+    <view class="head-contact">{{record.contact || '未命名对象'}}</view>
+    <view class="head-phrase">{{record.phraseTitle}}</view>
+    <view class="head-meta">发送时间：{{record.time}}</view>
+  </view>
+
+  <view class="form-card card" wx:if="{{record}}">
+    <view class="label">对方反馈</view>
+    <textarea
+      class="feedback-input"
+      placeholder="记录对方的回复、态度或后续约定"
+      placeholder-class="placeholder"
+      value="{{feedback}}"
+      bindinput="onFeedbackInput"
+    />
+
+    <view class="label reminder-label">下次回访提醒</view>
+    <view class="reminder-row">
+      <picker mode="date" value="{{reminderDate}}" start="{{today}}" bindchange="onDateChange">
+        <view class="reminder-picker">
+          <text class="picker-icon">📅</text>
+          <text>{{reminderDate}}</text>
+        </view>
+      </picker>
+      <picker mode="time" value="{{reminderTime}}" bindchange="onTimeChange">
+        <view class="reminder-picker">
+          <text class="picker-icon">⏰</text>
+          <text>{{reminderTime}}</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <button class="save-btn" bindtap="onSaveTap">
+    <text>保存跟进记录</text>
+  </button>
+  <button class="close-btn" bindtap="onCloseTap">
+    <text>标记闭环</text>
+  </button>
+</view>

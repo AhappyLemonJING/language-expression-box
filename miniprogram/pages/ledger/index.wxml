@@ -1,0 +1,45 @@
+<view class="page">
+  <scroll-view class="filter-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+    <view class="filter-row">
+      <view
+        wx:for="{{filters}}"
+        wx:key="*this"
+        class="pill filter-pill {{activeFilter === item ? 'pill-active' : 'pill-normal'}}"
+        data-filter="{{item}}"
+        bindtap="onFilterTap"
+      >{{item}}</view>
+    </view>
+  </scroll-view>
+
+  <view class="list">
+    <view class="ledger-card card" wx:for="{{filteredRecords}}" wx:key="id" data-id="{{item.id}}" bindtap="onDetailTap">
+      <view class="ledger-head">
+        <view class="contact">{{item.contact || '未命名对象'}}</view>
+        <view class="status status-{{item.statusClass}}">{{item.status}}</view>
+      </view>
+      <view class="phrase-title">话术：{{item.phraseTitle}}</view>
+      <view class="send-time">发送时间：{{item.time}}</view>
+      <view class="note" wx:if="{{item.note}}">{{item.note}}</view>
+      <view class="ledger-actions">
+        <view class="ledger-btn" data-id="{{item.id}}" catchtap="onEditTap">编辑跟进记录</view>
+        <view class="ledger-btn close-btn" data-id="{{item.id}}" catchtap="onCloseTap">标记闭环</view>
+      </view>
+    </view>
+
+    <view class="empty-wrap" wx:if="{{!filteredRecords.length}}">
+      <image class="empty-img" src="/images/huaxiaobao/empty-ledger.png"></image>
+      <view class="empty-title">还没有沟通记录</view>
+      <view class="empty-desc">发送话术之后，就会记录在这里</view>
+    </view>
+  </view>
+
+  <view class="close-mask" wx:if="{{showSparkle}}">
+    <view class="sparkle-card">
+      <view class="spark-star s1">✦</view>
+      <view class="spark-star s2">✧</view>
+      <view class="spark-star s3">✦</view>
+      <image class="spark-img" src="/images/huaxiaobao/success.png"></image>
+      <view class="spark-title">已标记闭环</view>
+    </view>
+  </view>
+</view>

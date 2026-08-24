@@ -1,0 +1,107 @@
+<view class="page">
+  <view class="nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-inner">
+      <view class="nav-title">话术盒子</view>
+      <view class="nav-bell" bindtap="onBellTap">🔔</view>
+    </view>
+  </view>
+
+  <view class="body" style="padding-top: {{navHeight}}px;">
+    <view class="search-box" bindtap="onSearchTap">
+      <text class="search-icon">🔍</text>
+      <text class="search-placeholder">搜索话术，例如：拒绝别人借钱、婚礼敬酒、项目延期通知</text>
+    </view>
+
+    <scroll-view class="tag-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+      <view class="tag-row">
+        <view
+          wx:for="{{tags}}"
+          wx:key="*this"
+          class="pill tag {{activeTag === item ? 'pill-active' : 'tag-normal'}}"
+          data-tag="{{item}}"
+          bindtap="onTagTap"
+        >{{item}}</view>
+      </view>
+    </scroll-view>
+
+    <view class="section">
+      <view class="section-head">
+        <view class="section-title">
+          <text class="fire">🔥</text>
+          <text>今日热门话术</text>
+        </view>
+        <view class="section-more" bindtap="onMoreTap">查看更多</view>
+      </view>
+      <scroll-view class="hot-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+        <view class="hot-row">
+          <view
+            wx:for="{{hotList}}"
+            wx:key="id"
+            class="hot-card card"
+            data-id="{{item.id}}"
+            bindtap="onPhraseTap"
+          >
+            <view class="hot-title">{{item.title}}</view>
+            <view class="hot-preview">{{item.preview}}</view>
+            <view class="hot-tag" style="color: {{item.tagColor}};">{{item.tag}}</view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+
+    <view class="section">
+      <view class="section-head">
+        <view class="section-title">
+          <text class="warn">⚠️</text>
+          <text>高风险沟通专区</text>
+        </view>
+      </view>
+      <view class="risk-grid">
+        <view
+          wx:for="{{riskList}}"
+          wx:key="id"
+          class="risk-card card"
+          data-id="{{item.id}}"
+          bindtap="onPhraseTap"
+        >
+          <view class="risk-badge">{{item.risk}}</view>
+          <view class="risk-title">{{item.title}}</view>
+          <view class="risk-preview">{{item.preview}}</view>
+          <view class="risk-foot">
+            <text class="risk-tag">{{item.tag}}</text>
+            <text class="risk-arrow">›</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-head">
+        <view class="section-title">
+          <text class="new-icon">🆕</text>
+          <text>最近上新话术</text>
+        </view>
+      </view>
+      <view class="new-list">
+        <view
+          wx:for="{{newList}}"
+          wx:key="id"
+          class="new-item"
+          data-id="{{item.id}}"
+          bindtap="onPhraseTap"
+        >
+          <view class="new-main">
+            <view class="new-title">{{item.title}}</view>
+            <view class="new-preview">{{item.preview}}</view>
+          </view>
+          <view class="new-tag">{{item.tag}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="refresh-mask" wx:if="{{refreshing}}">
+    <image class="refresh-img" src="/images/huaxiaobao/thinking.png"></image>
+    <view class="refresh-text">话小泡正在帮你翻找新鲜话术…</view>
+  </view>
+</view>

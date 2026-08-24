@@ -1,0 +1,42 @@
+<view class="page">
+  <view class="form-card card">
+    <view class="field">
+      <view class="label">标题</view>
+      <input class="input" placeholder="例如：拒绝同事拼单" placeholder-class="placeholder" value="{{form.title}}" data-key="title" bindinput="onInput" />
+    </view>
+
+    <view class="field">
+      <view class="label">场景</view>
+      <picker mode="selector" range="{{scenarios}}" value="{{scenarioIndex}}" bindchange="onScenarioChange">
+        <view class="picker {{form.scenario ? '' : 'picker-empty'}}">
+          {{form.scenario || '请选择场景'}}
+          <text class="picker-arrow">⌄</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <view class="label">正文</view>
+      <textarea class="textarea" placeholder="输入话术正文，用 ${称呼} 这样的格式插入变量" placeholder-class="placeholder" value="{{form.content}}" data-key="content" bindinput="onContentInput" maxlength="-1" />
+      <view class="counter">{{contentLength}} 字</view>
+    </view>
+
+    <view class="field">
+      <view class="label">变量</view>
+      <view class="vars-hint" wx:if="{{variables.length}}">
+        <view class="var-chip" wx:for="{{variables}}" wx:key="*this">${ {{item}} }</view>
+      </view>
+      <view class="vars-hint empty-vars" wx:else>尚未检测到变量，正文里输入 ${名称} 即可自动识别</view>
+    </view>
+
+    <view class="field">
+      <view class="label">避坑提醒</view>
+      <textarea class="textarea tip-textarea" placeholder="写一句使用时需要注意的话" placeholder-class="placeholder" value="{{form.tip}}" data-key="tip" bindinput="onInput" />
+    </view>
+  </view>
+
+  <button class="save-btn" bindtap="onSaveTap">
+    <text class="save-icon">💾</text>
+    <text>保存话术</text>
+  </button>
+</view>

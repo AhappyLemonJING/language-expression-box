@@ -1,0 +1,123 @@
+<wxs src="./highlight.wxs" module="hl"></wxs>
+<view class="page">
+  <view class="nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-inner">
+      <view class="nav-btn" bindtap="onBack">‹</view>
+      <view class="nav-title">{{phrase.title}}</view>
+      <view class="nav-right">
+        <view class="nav-btn star {{favorite ? 'star-active' : ''}}" bindtap="onFavoriteTap">⭐</view>
+        <view class="nav-btn" bindtap="onShareTap">🔗</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="body" style="padding-top: {{navHeight}}px;">
+    <view class="meta-row">
+      <view class="scenario-pill">{{phrase.scenario}}</view>
+      <view class="risk-pill {{riskClass}}">{{phrase.risk}}</view>
+    </view>
+
+    <view class="tip-bubble">
+      <view class="tip-icon">💡</view>
+      <view class="tip-text">{{phrase.tip}}</view>
+    </view>
+
+    <view class="variant-tabs">
+      <view
+        wx:for="{{variantTabs}}"
+        wx:key="name"
+        class="variant-tab {{activeVariant === index ? 'variant-active' : ''}}"
+        data-index="{{index}}"
+        bindtap="onVariantTap"
+      >
+        <text class="variant-icon">{{item.icon}}</text>
+        <text class="variant-name">{{item.name}}</text>
+      </view>
+    </view>
+
+    <view class="phrase-box">
+      <rich-text nodes="{{hl.highlight(currentContent)}}"></rich-text>
+    </view>
+
+    <view class="form-card">
+      <view class="form-title">填写变量，一键生成你的专属话术</view>
+      <view class="form-fields">
+        <view class="form-field" wx:for="{{phrase.variables}}" wx:key="key">
+          <view class="field-label">{{item.key}}</view>
+          <input
+            class="field-input"
+            placeholder="请输入{{item.key}}"
+            placeholder-class="field-placeholder"
+            value="{{item.value}}"
+            data-index="{{index}}"
+            bindinput="onVariableInput"
+          />
+        </view>
+      </view>
+      <button class="generate-btn" bindtap="onGenerateTap">
+        <text class="generate-icon">✨</text>
+        <text>一键填充生成</text>
+      </button>
+      <view class="generate-result" wx:if="{{generated}}">
+        <view class="result-title">生成结果</view>
+        <rich-text class="result-text" nodes="{{hl.highlight(generatedContent)}}"></rich-text>
+      </view>
+    </view>
+  </view>
+
+  <view class="action-bar" style="padding-bottom: {{safeBottom}}px;">
+    <view class="action-btn" bindtap="onCopyTap">
+      <text class="action-icon">📋</text>
+      <text class="action-label">一键复制</text>
+    </view>
+    <view class="action-btn" bindtap="onRemindTap">
+      <text class="action-icon">⏰</text>
+      <text class="action-label">发送提醒</text>
+    </view>
+    <view class="action-btn" bindtap="onLedgerTap">
+      <text class="action-icon">📝</text>
+      <text class="action-label">加入台账</text>
+    </view>
+    <view class="action-btn ai-btn" bindtap="onAiTap">
+      <text class="action-icon">✨</text>
+      <text class="action-label">AI润色</text>
+    </view>
+  </view>
+
+  <view class="mask" wx:if="{{showCopy}}">
+    <view class="pop-card">
+      <view class="sparkle s1">✦</view>
+      <view class="sparkle s2">✧</view>
+      <view class="sparkle s3">✦</view>
+      <image class="pop-img" src="/images/huaxiaobao/success.png"></image>
+      <view class="pop-title">复制成功</view>
+      <view class="pop-desc">话术已放进剪贴板</view>
+    </view>
+  </view>
+
+  <view class="mask" wx:if="{{showAiLoading}}">
+    <view class="pop-card ai-pop">
+      <image class="pop-img" src="/images/huaxiaobao/thinking.png"></image>
+      <view class="pop-title">话小泡正在润色…</view>
+      <view class="pop-desc">帮你把语气改得更自然</view>
+    </view>
+  </view>
+
+  <view class="remind-pop" wx:if="{{showRemind}}">
+    <view class="remind-card">
+      <view class="remind-title">设置发送提醒</view>
+      <view class="remind-row">
+        <picker mode="date" value="{{remindDate}}" bindchange="onRemindDateChange">
+          <view class="remind-picker">📅 {{remindDate}}</view>
+        </picker>
+        <picker mode="time" value="{{remindTime}}" bindchange="onRemindTimeChange">
+          <view class="remind-picker">⏰ {{remindTime}}</view>
+        </picker>
+      </view>
+      <view class="remind-actions">
+        <button class="remind-btn" bindtap="onRemindCancel">取消</button>
+        <button class="remind-btn primary" bindtap="onRemindConfirm">确认设置</button>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,43 @@
+var highlight = function (content) {
+  var safe = '' + content;
+  if (!safe) {
+    return [{ type: "text", text: "" }];
+  }
+  var nodes = [];
+  var startMark = "${";
+  var cursor = 0;
+  var start = safe.indexOf(startMark);
+  while (start !== -1) {
+    if (start > cursor) {
+      nodes.push({ type: "text", text: safe.substring(cursor, start) });
+    }
+    var end = safe.indexOf("}", start);
+    if (end === -1) {
+      break;
+    }
+    var variable = safe.substring(start, end + 1);
+    nodes.push({
+      type: "node",
+      name: "span",
+      attrs: {
+        class: "var-bubble",
+      },
+      children: [
+        {
+          type: "text",
+          text: variable,
+        },
+      ],
+    });
+    cursor = end + 1;
+    start = safe.indexOf(startMark, cursor);
+  }
+  if (cursor < safe.length) {
+    nodes.push({ type: "text", text: safe.substring(cursor) });
+  }
+  return nodes.length ? nodes : [{ type: "text", text: safe }];
+};
+
+module.exports = {
+  highlight: highlight,
+};

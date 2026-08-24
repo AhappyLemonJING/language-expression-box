@@ -1,0 +1,9 @@
+# WeChat DevTools private config
+project.private.config.json
+
+# Local caches and OS files
+.DS_Store
+node_modules/
+miniprogram_npm/
+cloudfunctions/
+uploadCloudFunction.sh

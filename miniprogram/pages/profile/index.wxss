@@ -1,0 +1,96 @@
+.page {
+  min-height: 100vh;
+  padding: 30rpx 32rpx 48rpx;
+  background: #FFFDF8;
+}
+
+.profile-head {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 8rpx 36rpx;
+}
+
+.avatar-ring {
+  width: 136rpx;
+  height: 136rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #9B86F5, #C4B6FF);
+  box-shadow: 0 12rpx 28rpx rgba(155, 134, 245, 0.32);
+}
+
+.avatar-inner {
+  width: 108rpx;
+  height: 108rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #FFFFFF;
+  color: #7C5CE0;
+  font-size: 48rpx;
+  font-weight: 700;
+}
+
+.profile-info {
+  margin-left: 28rpx;
+}
+
+.nickname {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #333333;
+}
+
+.profile-sub {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #888888;
+}
+
+.menu {
+  padding: 10rpx 28rpx;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  height: 112rpx;
+  border-bottom: 2rpx solid #F4F0FB;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-icon {
+  width: 68rpx;
+  height: 68rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24rpx;
+  font-size: 34rpx;
+}
+
+.menu-name {
+  flex: 1;
+  margin-left: 22rpx;
+  font-size: 28rpx;
+  color: #333333;
+  font-weight: 600;
+}
+
+.menu-arrow {
+  font-size: 38rpx;
+  color: #C9C2E2;
+}
+
+.version {
+  margin-top: 48rpx;
+  text-align: center;
+  font-size: 22rpx;
+  color: #B7B1C9;
+}

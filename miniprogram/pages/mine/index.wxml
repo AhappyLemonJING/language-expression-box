@@ -1,0 +1,56 @@
+<view class="page">
+  <view class="tabs">
+    <view
+      class="tab {{activeTab === 'favorite' ? 'tab-active' : ''}}"
+      data-tab="favorite"
+      bindtap="onTabTap"
+    >我的收藏</view>
+    <view
+      class="tab {{activeTab === 'created' ? 'tab-active' : ''}}"
+      data-tab="created"
+      bindtap="onTabTap"
+    >我创建的话术</view>
+  </view>
+
+  <view class="list" wx:if="{{activeTab === 'favorite'}}">
+    <view class="mine-card card" wx:for="{{favoriteList}}" wx:key="id" data-id="{{item.id}}" bindtap="onDetailTap">
+      <view class="mine-card-head">
+        <view class="mine-title">{{item.title}}</view>
+        <view class="mine-scenario">{{item.scenario}}</view>
+      </view>
+      <view class="mine-preview">{{item.variants[0].content}}</view>
+      <view class="mine-card-foot">
+        <view class="mine-risk {{item.risk === '高风险' ? 'risk-high' : item.risk === '中等' ? 'risk-mid' : 'risk-low'}}">{{item.risk}}</view>
+        <view class="mine-go">查看完整话术 ›</view>
+      </view>
+    </view>
+
+    <view class="empty-wrap" wx:if="{{!favoriteList.length}}">
+      <image class="empty-img" src="/images/huaxiaobao/empty-favorite.png"></image>
+      <view class="empty-title">还没有收藏喜欢的话术哦</view>
+      <view class="empty-desc">去首页挑一句喜欢的，点右上角星星收藏吧 ✨</view>
+    </view>
+  </view>
+
+  <view class="list" wx:if="{{activeTab === 'created'}}">
+    <view class="mine-card card" wx:for="{{createdList}}" wx:key="id">
+      <view class="mine-card-head">
+        <view class="mine-title">{{item.title}}</view>
+        <view class="mine-scenario">{{item.scenario}}</view>
+      </view>
+      <view class="mine-preview">{{item.content}}</view>
+      <view class="mine-card-foot">
+        <view class="mine-vars" wx:if="{{item.variables.length}}">{{item.variables.length}} 个变量</view>
+        <view class="mine-del" data-index="{{index}}" catchtap="onDeleteTap">删除</view>
+      </view>
+    </view>
+
+    <view class="empty-wrap" wx:if="{{!createdList.length}}">
+      <image class="empty-img" src="/images/huaxiaobao/empty-custom.png"></image>
+      <view class="empty-title">还没有自建话术</view>
+      <view class="empty-desc">点击右上角加号，创建属于你的专属话术</view>
+    </view>
+  </view>
+
+  <view class="fab" bindtap="onCreateTap">＋</view>
+</view>

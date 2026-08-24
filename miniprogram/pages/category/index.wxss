@@ -1,0 +1,95 @@
+.page {
+  min-height: 100vh;
+  padding: 24rpx 32rpx 48rpx;
+  background: #FFFDF8;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  height: 88rpx;
+  padding: 0 30rpx;
+  background: #FFFFFF;
+  border: 3rpx solid #EDE7FF;
+  border-radius: 36rpx;
+  box-shadow: 0 8rpx 24rpx rgba(155, 134, 245, 0.06);
+}
+
+.search-icon {
+  font-size: 30rpx;
+  margin-right: 16rpx;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 26rpx;
+  color: #333333;
+}
+
+.search-placeholder {
+  color: #AFA9BF;
+}
+
+.search-clear {
+  width: 44rpx;
+  height: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #F3EFFF;
+  color: #7C6BD6;
+  font-size: 24rpx;
+}
+
+.grid {
+  margin-top: 32rpx;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24rpx;
+}
+
+.cat-card {
+  position: relative;
+  min-height: 240rpx;
+  padding: 24rpx;
+  border: 3rpx solid transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+.cat-illustration {
+  width: 88rpx;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 28rpx;
+  box-shadow: 0 8rpx 18rpx rgba(0, 0, 0, 0.08);
+}
+
+.cat-icon {
+  font-size: 48rpx;
+}
+
+.cat-name {
+  margin-top: 20rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #333333;
+}
+
+.cat-desc {
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: #888888;
+  line-height: 1.4;
+}
+
+.cat-arrow {
+  position: absolute;
+  right: 24rpx;
+  bottom: 18rpx;
+  font-size: 40rpx;
+  font-weight: 700;
+}

@@ -1,0 +1,144 @@
+.page {
+  min-height: 100vh;
+  padding: 24rpx 32rpx 160rpx;
+  background: #FFFDF8;
+}
+
+.tabs {
+  display: flex;
+  padding: 10rpx;
+  border-radius: 36rpx;
+  background: #F1EDFF;
+}
+
+.tab {
+  flex: 1;
+  height: 76rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30rpx;
+  font-size: 27rpx;
+  color: #8B81A8;
+}
+
+.tab-active {
+  background: #9B86F5;
+  color: #FFFFFF;
+  font-weight: 700;
+  box-shadow: 0 8rpx 18rpx rgba(155, 134, 245, 0.28);
+}
+
+.list {
+  margin-top: 28rpx;
+}
+
+.mine-card {
+  margin-bottom: 20rpx;
+  padding: 28rpx;
+}
+
+.mine-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mine-title {
+  flex: 1;
+  min-width: 0;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #333333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mine-scenario {
+  flex-shrink: 0;
+  margin-left: 16rpx;
+  padding: 6rpx 18rpx;
+  border-radius: 28rpx;
+  background: #F3EFFF;
+  color: #6F5BD6;
+  font-size: 22rpx;
+}
+
+.mine-preview {
+  margin-top: 14rpx;
+  font-size: 25rpx;
+  line-height: 1.6;
+  color: #888888;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.mine-card-foot {
+  margin-top: 18rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mine-risk {
+  padding: 6rpx 18rpx;
+  border-radius: 28rpx;
+  font-size: 22rpx;
+  font-weight: 700;
+}
+
+.risk-high {
+  background: #FFE4CE;
+  color: #E0782D;
+}
+
+.risk-mid {
+  background: #FFF3C9;
+  color: #C39216;
+}
+
+.risk-low {
+  background: #DFF6E9;
+  color: #2F9E6E;
+}
+
+.mine-go {
+  font-size: 22rpx;
+  color: #9B86F5;
+}
+
+.mine-vars {
+  padding: 6rpx 18rpx;
+  border-radius: 28rpx;
+  background: #F3EFFF;
+  color: #6F5BD6;
+  font-size: 22rpx;
+}
+
+.mine-del {
+  padding: 6rpx 18rpx;
+  border-radius: 28rpx;
+  background: #FFEFE9;
+  color: #E07A5F;
+  font-size: 22rpx;
+}
+
+.fab {
+  position: fixed;
+  right: 36rpx;
+  bottom: 180rpx;
+  width: 104rpx;
+  height: 104rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #9B86F5;
+  color: #FFFFFF;
+  font-size: 56rpx;
+  font-weight: 400;
+  box-shadow: 0 14rpx 30rpx rgba(155, 134, 245, 0.38);
+}

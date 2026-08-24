@@ -1,0 +1,60 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/category/index",
+    "pages/detail/index",
+    "pages/mine/index",
+    "pages/create/index",
+    "pages/ledger/index",
+    "pages/ledger-detail/index",
+    "pages/profile/index"
+  ],
+  "window": {
+    "backgroundColor": "#FFFDF8",
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#FFFDF8",
+    "navigationBarTitleText": "话术盒子",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#A8A0B8",
+    "selectedColor": "#9B86F5",
+    "backgroundColor": "#FFFDF8",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tab/home.png",
+        "selectedIconPath": "images/tab/home.png"
+      },
+      {
+        "pagePath": "pages/category/index",
+        "text": "分类",
+        "iconPath": "images/tab/category.png",
+        "selectedIconPath": "images/tab/category.png"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的话术",
+        "iconPath": "images/tab/mine.png",
+        "selectedIconPath": "images/tab/mine.png"
+      },
+      {
+        "pagePath": "pages/ledger/index",
+        "text": "沟通台账",
+        "iconPath": "images/tab/ledger.png",
+        "selectedIconPath": "images/tab/ledger.png"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的",
+        "iconPath": "images/tab/profile.png",
+        "selectedIconPath": "images/tab/profile.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents"
+}
