@@ -1,4 +1,4 @@
-const { detailPhrases } = require("../../data.js");
+const api = require("../../services/api");
 
 function fillVars(content, variables) {
   let result = content;
@@ -43,31 +43,46 @@ Page({
       remindDate: `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`,
     });
 
-    const id = options.id || "refuse-money";
-    const phrase = detailPhrases[id] || detailPhrases["refuse-money"];
-    const variantTabs = phrase.variants.map((item) => ({
-      name: item.name,
-      icon: item.icon,
-    }));
-    const riskClass = phrase.risk === "高风险" ? "risk-high" : phrase.risk === "中等" ? "risk-mid" : "risk-low";
-    this.setData(
-      {
-        phrase,
-        variantTabs,
-        riskClass,
-        currentContent: phrase.variants[0].content,
-      },
-      () => {
-        this.loadFavorite();
-      }
-    );
+    this.loadPhrase(options.id || "refuse-money");
+  },
+
+  loadPhrase(id) {
+    api
+      .getPhraseDetail(id)
+      .then((phrase) => {
+        const variantTabs = phrase.variants.map((item) => ({
+          name: item.name,
+          icon: item.icon,
+        }));
+        const riskClass =
+          phrase.risk === "高风险" ? "risk-high" : phrase.risk === "中等" ? "risk-mid" : "risk-low";
+        this.setData(
+          {
+            phrase,
+            variantTabs,
+            riskClass,
+            currentContent: phrase.variants[0] ? phrase.variants[0].content : "",
+          },
+          () => {
+            this.loadFavorite();
+          }
+        );
+      })
+      .catch((error) => {
+        wx.showToast({ title: error.message || "话术加载失败", icon: "none" });
+      });
   },
 
   loadFavorite() {
-    const favorites = wx.getStorageSync("favoritePhrases") || [];
-    this.setData({
-      favorite: favorites.indexOf(this.data.phrase.id) > -1,
-    });
+    if (!this.data.phrase.id) return;
+    api
+      .getFavorites()
+      .then((favorites) => {
+        this.setData({
+          favorite: favorites.some((item) => item.id === this.data.phrase.id),
+        });
+      })
+      .catch(() => {});
   },
 
   onBack() {
@@ -80,19 +95,19 @@ Page({
 
   onFavoriteTap() {
     const favorite = !this.data.favorite;
-    let favorites = wx.getStorageSync("favoritePhrases") || [];
-    const id = this.data.phrase.id;
-    if (favorite) {
-      favorites.push(id);
-    } else {
-      favorites = favorites.filter((item) => item !== id);
-    }
-    wx.setStorageSync("favoritePhrases", favorites);
-    this.setData({ favorite });
-    wx.showToast({
-      title: favorite ? "已收藏" : "已取消收藏",
-      icon: "none",
-    });
+    const { id, sourceType } = this.data.phrase;
+    const action = favorite ? api.addFavorite : api.removeFavorite;
+    action(sourceType || "template", id)
+      .then(() => {
+        this.setData({ favorite });
+        wx.showToast({
+          title: favorite ? "已收藏" : "已取消收藏",
+          icon: "none",
+        });
+      })
+      .catch((error) => {
+        wx.showToast({ title: error.message || "操作失败", icon: "none" });
+      });
   },
 
   onShareTap() {
@@ -118,7 +133,7 @@ Page({
     const index = Number(e.currentTarget.dataset.index);
     const variables = this.data.phrase.variables;
     variables[index].value = e.detail.value;
-    this.setData({ phrase: { ...this.data.phrase, variables } });
+    this.setData({ phrase: Object.assign({}, this.data.phrase, { variables }) });
   },
 
   onGenerateTap() {
@@ -126,7 +141,7 @@ Page({
     const content = fillVars(variant.content, this.data.phrase.variables);
     this.setData({
       generated: true,
-      generatedContent: highlight(content),
+      generatedContent: content,
     });
     wx.showToast({ title: "话术已生成", icon: "none" });
   },
@@ -168,17 +183,21 @@ Page({
 
   onLedgerTap() {
     const record = {
-      id: Date.now(),
       contact: "",
       phraseTitle: this.data.phrase.title,
-      time: "刚刚",
+      targetType: this.data.phrase.sourceType || "template",
+      targetId: this.data.phrase.id,
       status: "待跟进",
       note: this.data.phrase.title + "，待补充沟通对象",
     };
-    const records = wx.getStorageSync("ledgerRecords") || [];
-    records.unshift(record);
-    wx.setStorageSync("ledgerRecords", records);
-    wx.showToast({ title: "已加入沟通台账", icon: "none" });
+    api
+      .createLedger(record)
+      .then(() => {
+        wx.showToast({ title: "已加入沟通台账", icon: "none" });
+      })
+      .catch((error) => {
+        wx.showToast({ title: error.message || "加入失败", icon: "none" });
+      });
   },
 
   onAiTap() {

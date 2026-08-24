@@ -1,8 +1,9 @@
 {
   "miniprogramRoot": "miniprogram/",
+  "cloudfunctionRoot": "cloudfunctions/",
   "setting": {
-    "urlCheck": true,
-    "es6": true,
+    "urlCheck": false,
+    "es6": false,
     "enhance": true,
     "postcss": true,
     "preloadBackgroundData": false,
@@ -43,7 +44,7 @@
     "swc": false,
     "disableSWC": true
   },
-  "appid": "touristappid",
+  "appid": "wxc8848fccd6993d61",
   "projectname": "话术盒子",
   "libVersion": "2.20.1",
   "condition": {},

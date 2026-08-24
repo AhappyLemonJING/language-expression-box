@@ -1,4 +1,4 @@
-const { ledgerRecords } = require("../../data.js");
+const api = require("../../services/api");
 
 function pad(n) {
   return n < 10 ? `0${n}` : String(n);
@@ -20,17 +20,24 @@ Page({
 
   onLoad(options) {
     const id = Number(options.id);
-    const stored = wx.getStorageSync("ledgerRecords") || [];
-    const all = stored.length ? stored : ledgerRecords;
-    const record = all.find((item) => item.id === id) || all[0];
-    this.setData({
-      record: {
-        ...record,
-        initial: (record.contact || "未").slice(0, 1),
-      },
-      feedback: record.feedback || "",
-      reminderDate: todayString(),
-    });
+    api
+      .getLedgerDetail(id)
+      .then((record) => {
+        const reminderParts = String(record.reminder || "").split(" ");
+        const date = reminderParts[0] || todayString();
+        const time = reminderParts[1] || "10:00";
+        this.setData({
+          record: Object.assign({}, record, {
+            initial: (record.contact || "未").slice(0, 1),
+          }),
+          feedback: record.feedback || "",
+          reminderDate: date,
+          reminderTime: time,
+        });
+      })
+      .catch((error) => {
+        wx.showToast({ title: error.message || "加载失败", icon: "none" });
+      });
   },
 
   onFeedbackInput(e) {
@@ -45,33 +52,34 @@ Page({
     this.setData({ reminderTime: e.detail.value });
   },
 
-  saveRecord(status) {
-    const record = {
-      ...this.data.record,
-      feedback: this.data.feedback,
-      reminder: `${this.data.reminderDate} ${this.data.reminderTime}`,
-      status,
-    };
-    const stored = wx.getStorageSync("ledgerRecords") || [];
-    const source = stored.length ? stored : ledgerRecords;
-    const next = source.map((item) => (item.id === record.id ? record : item));
-    wx.setStorageSync("ledgerRecords", next);
-    this.setData({ record });
+  saveRecord(status, callback) {
+    api
+      .updateLedger(this.data.record.id, {
+        feedback: this.data.feedback,
+        remindAt: `${this.data.reminderDate} ${this.data.reminderTime}`,
+        status,
+      })
+      .then(callback)
+      .catch((error) => {
+        wx.showToast({ title: error.message || "保存失败", icon: "none" });
+      });
   },
 
   onSaveTap() {
-    this.saveRecord(this.data.record.status || "待跟进");
-    wx.showToast({ title: "跟进记录已保存", icon: "success" });
-    setTimeout(() => {
-      wx.navigateBack();
-    }, 600);
+    this.saveRecord(this.data.record.status || "待跟进", () => {
+      wx.showToast({ title: "跟进记录已保存", icon: "success" });
+      setTimeout(() => {
+        wx.navigateBack();
+      }, 600);
+    });
   },
 
   onCloseTap() {
-    this.saveRecord("已闭环");
-    wx.showToast({ title: "已标记闭环", icon: "success" });
-    setTimeout(() => {
-      wx.navigateBack();
-    }, 600);
+    this.saveRecord("已闭环", () => {
+      wx.showToast({ title: "已标记闭环", icon: "success" });
+      setTimeout(() => {
+        wx.navigateBack();
+      }, 600);
+    });
   },
 });

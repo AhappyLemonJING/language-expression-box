@@ -1,0 +1,540 @@
+{
+  "categories": [
+    {
+      "_id": "work",
+      "name": "职场办公",
+      "desc": "汇报、沟通、项目管理",
+      "icon": "💼",
+      "color": "#F0EAFE",
+      "accent": "#8B6FE8",
+      "sortOrder": 0,
+      "status": "active"
+    },
+    {
+      "_id": "social",
+      "name": "人情社交",
+      "desc": "见面、寒暄、人情往来",
+      "icon": "🤝",
+      "color": "#FFF0E8",
+      "accent": "#DF7C62",
+      "sortOrder": 1,
+      "status": "active"
+    },
+    {
+      "_id": "refuse",
+      "name": "拒绝专区",
+      "desc": "借钱、甩活、不合理请求",
+      "icon": "❌",
+      "color": "#FFEDE9",
+      "accent": "#E77B68",
+      "sortOrder": 2,
+      "status": "active"
+    },
+    {
+      "_id": "apology",
+      "name": "道歉&安抚",
+      "desc": "认错、修复、安抚情绪",
+      "icon": "🙏",
+      "color": "#E7F6EF",
+      "accent": "#39A87F",
+      "sortOrder": 3,
+      "status": "active"
+    },
+    {
+      "_id": "blessing",
+      "name": "祝福问候",
+      "desc": "节日、喜事、日常问候",
+      "icon": "💬",
+      "color": "#FFF3DC",
+      "accent": "#C58A22",
+      "sortOrder": 4,
+      "status": "active"
+    },
+    {
+      "_id": "rights",
+      "name": "售后维权",
+      "desc": "退换货、投诉、协商",
+      "icon": "🛒",
+      "color": "#EEE7FD",
+      "accent": "#8068DD",
+      "sortOrder": 5,
+      "status": "active"
+    },
+    {
+      "_id": "dating",
+      "name": "情感相亲",
+      "desc": "开场、邀约、升温",
+      "icon": "💞",
+      "color": "#FFE7EE",
+      "accent": "#D26883",
+      "sortOrder": 6,
+      "status": "active"
+    },
+    {
+      "_id": "school",
+      "name": "学生校园",
+      "desc": "师生、家校、同学沟通",
+      "icon": "🎓",
+      "color": "#E7F6EF",
+      "accent": "#43B98F",
+      "sortOrder": 7,
+      "status": "active"
+    },
+    {
+      "_id": "custom",
+      "name": "自定义场景",
+      "desc": "创建你的专属话术",
+      "icon": "✍️",
+      "color": "#F6EFFB",
+      "accent": "#9C8FB1",
+      "sortOrder": 8,
+      "status": "active"
+    }
+  ],
+  "phrases": [
+    {
+      "_id": "refuse-money",
+      "title": "拒绝朋友借钱",
+      "categoryId": "refuse",
+      "risk": "高风险",
+      "tip": "先表达理解，再给具体理由，不要只说“不方便”。把还款或帮助的边界说清楚，能避免后续反复拉扯。",
+      "preview": "我最近手头也比较紧，房贷和孩子的费用刚排完，实在匀不出来。",
+      "flags": {
+        "hot": true,
+        "risk": false,
+        "new": false
+      },
+      "variables": [
+        {
+          "key": "称呼",
+          "value": ""
+        },
+        {
+          "key": "金额",
+          "value": ""
+        }
+      ],
+      "variants": [
+        {
+          "name": "委婉温和版",
+          "icon": "🫂",
+          "content": "${称呼}，我理解你现在需要用钱。不过我这边最近也有房贷和日常开销要安排，实在匀不出${金额}。虽然这次帮不上忙，但如果你需要一起想想其他办法，我可以陪你聊聊。"
+        },
+        {
+          "name": "客观中立版",
+          "icon": "📝",
+          "content": "${称呼}，你提到的${金额}我确实拿不出来。我的资金已经做了安排，近期没有可动用的余量，希望你能理解。"
+        },
+        {
+          "name": "简短微信版",
+          "icon": "💬",
+          "content": "${称呼}，最近我手头也紧，${金额}这边帮不上忙，不好意思呀。"
+        },
+        {
+          "name": "正式邮件版",
+          "icon": "📩",
+          "content": "尊敬的${称呼}：非常理解您目前的需要。受个人资金安排限制，我暂时无法提供${金额}的借款，感谢您的理解。"
+        }
+      ],
+      "sortOrder": 0,
+      "status": "published",
+      "createdAt": "2026-08-24T07:39:42.730Z",
+      "updatedAt": "2026-08-24T07:39:42.736Z"
+    },
+    {
+      "_id": "wedding-toast",
+      "title": "婚礼敬酒词",
+      "categoryId": "blessing",
+      "risk": "普通",
+      "tip": "敬酒词控制在三句话以内，先祝福新人，再落到具体的人和事，气氛会更自然。",
+      "preview": "祝你们日子像这杯酒一样，越品越甜，往后年年有今日。",
+      "flags": {
+        "hot": true,
+        "risk": false,
+        "new": false
+      },
+      "variables": [
+        {
+          "key": "称呼",
+          "value": ""
+        }
+      ],
+      "variants": [
+        {
+          "name": "委婉温和版",
+          "icon": "🫂",
+          "content": "${称呼}，祝你们以后的日子像今天一样甜，互相照顾，年年都开心。"
+        },
+        {
+          "name": "简短微信版",
+          "icon": "💬",
+          "content": "恭喜${称呼}！新婚快乐，百年好合，改天一起吃饭！"
+        }
+      ],
+      "sortOrder": 1,
+      "status": "published",
+      "createdAt": "2026-08-24T07:39:42.736Z",
+      "updatedAt": "2026-08-24T07:39:42.736Z"
+    },
+    {
+      "_id": "delay-notice",
+      "title": "项目延期通知",
+      "categoryId": "work",
+      "risk": "中等",
+      "tip": "延期通知要说清原因、影响和新时间点，同时给出补救动作，避免只抛问题。",
+      "preview": "很抱歉同步一个进展：本周联调遇到阻塞，预计延期三个工作日。",
+      "flags": {
+        "hot": true,
+        "risk": false,
+        "new": false
+      },
+      "variables": [
+        {
+          "key": "对方称呼",
+          "value": ""
+        },
+        {
+          "key": "延期天数",
+          "value": ""
+        }
+      ],
+      "variants": [
+        {
+          "name": "客观中立版",
+          "icon": "📝",
+          "content": "${对方称呼}，同步一下进展：本周联调遇到接口阻塞，预计整体延期${延期天数}个工作日。我们已调整排期并补充测试，具体时间表会在明天上午同步。"
+        },
+        {
+          "name": "正式邮件版",
+          "icon": "📩",
+          "content": "尊敬的${对方称呼}：受第三方接口联调影响，原计划交付日期将顺延${延期天数}个工作日。我方已启动备选方案，预计本周五前完成修复并更新交付计划。"
+        }
+      ],
+      "sortOrder": 2,
+      "status": "published",
+      "createdAt": "2026-08-24T07:39:42.736Z",
+      "updatedAt": "2026-08-24T07:39:42.736Z"
+    },
+    {
+      "_id": "after-sale",
+      "title": "售后维权开场",
+      "categoryId": "rights",
+      "risk": "中等",
+      "tip": "开场先给订单号和时间，再描述问题和诉求，态度坚定但不情绪化，客服更容易推进。",
+      "preview": "你好，我于上周购买的商品出现质量问题，需要申请退换处理。",
+      "flags": {
+        "hot": true,
+        "risk": false,
+        "new": false
+      },
+      "variables": [
+        {
+          "key": "订单号",
+          "value": ""
+        },
+        {
+          "key": "问题描述",
+          "value": ""
+        }
+      ],
+      "variants": [
+        {
+          "name": "客观中立版",
+          "icon": "📝",
+          "content": "你好，订单${订单号}存在以下问题：${问题描述}。请帮我登记售后并告知处理方案和时限，谢谢。"
+        },
+        {
+          "name": "正式邮件版",
+          "icon": "📩",
+          "content": "贵司客服：本人订单${订单号}收到后出现${问题描述}。依据平台售后规则，现申请退换货处理，请于三个工作日内回复。"
+        }
+      ],
+      "sortOrder": 3,
+      "status": "published",
+      "createdAt": "2026-08-24T07:39:42.736Z",
+      "updatedAt": "2026-08-24T07:39:42.736Z"
+    },
+    {
+      "_id": "refuse-work",
+      "title": "拒绝同事甩活",
+      "categoryId": "refuse",
+      "risk": "高风险",
+      "tip": "拒绝时给出客观理由，并明确由谁接手，不要模棱两可，也不要在公共群直接开火。",
+      "preview": "我手上已经排满三个需求，这个任务需要你重新找负责人。",
+      "flags": {
+        "hot": false,
+        "risk": true,
+        "new": false
+      },
+      "variables": [
+        {
+          "key": "同事称呼",
+          "value": ""
+        }
+      ],
+      "variants": [
+        {
+          "name": "客观中立版",
+          "icon": "📝",
+          "content": "${同事称呼}，我手上已经有三个并行需求，这个任务我接不了。建议你找项目经理重新排期或调整负责人，我可以帮忙补充交接说明。"
+        },
+        {
+          "name": "简短微信版",
+          "icon": "💬",
+          "content": "${同事称呼}，实在排不开，这个需求建议找负责人重新安排一下。"
+        }
+      ],
+      "sortOrder": 4,
+      "status": "published",
+      "createdAt": "2026-08-24T07:39:42.736Z",
+      "updatedAt": "2026-08-24T07:39:42.736Z"
+    },
+    {
+      "_id": "salary-talk",
+      "title": "涨薪沟通",
+      "categoryId": "work",
+      "risk": "高风险",
+      "tip": "用数据说话：列交付、对比市场、给期望区间，同时表达长期意愿，不要只谈辛苦。",
+      "preview": "这半年我交付的项目均按时上线，希望重新讨论一下薪资。",
+      "flags": {
+        "hot": false,
+        "risk": true,
+        "new": false
+      },
+      "variables": [
+        {
+          "key": "期望区间",
+          "value": ""
+        },
+        {
+          "key": "核心成绩",
+          "value": ""
+        }
+      ],
+      "variants": [
+        {
+          "name": "客观中立版",
+          "icon": "📝",
+          "content": "关于薪资，过去半年我完成了${核心成绩}，希望结合市场水平重新评估，我的期望区间是${期望区间}，也想听听您的反馈。"
+        },
+        {
+          "name": "正式邮件版",
+          "icon": "📩",
+          "content": "您好，近期我在${核心成绩}方面有稳定产出。结合岗位与市场情况，希望申请将薪资调整至${期望区间}，恳请安排一次沟通。"
+        }
+      ],
+      "sortOrder": 5,
+      "status": "published",
+      "createdAt": "2026-08-24T07:39:42.736Z",
+      "updatedAt": "2026-08-24T07:39:42.736Z"
+    },
+    {
+      "_id": "conflict-close",
+      "title": "关系紧张时破冰",
+      "categoryId": "social",
+      "risk": "中等",
+      "tip": "先承认自己也有责任，再邀请对方说说感受，不要一上来就争对错。",
+      "preview": "上次的沟通我也有没表达清楚的地方，想和你认真聊聊。",
+      "flags": {
+        "hot": false,
+        "risk": true,
+        "new": false
+      },
+      "variables": [
+        {
+          "key": "对方称呼",
+          "value": ""
+        }
+      ],
+      "variants": [
+        {
+          "name": "委婉温和版",
+          "icon": "🫂",
+          "content": "${对方称呼}，上次的事情我也有没处理好的地方。我想认真听听你的想法，我们再好好聊一次。"
+        },
+        {
+          "name": "简短微信版",
+          "icon": "💬",
+          "content": "${对方称呼}，想找你聊聊上次的事，我也有做得不够好的地方，等你方便。"
+        }
+      ],
+      "sortOrder": 6,
+      "status": "published",
+      "createdAt": "2026-08-24T07:39:42.736Z",
+      "updatedAt": "2026-08-24T07:39:42.736Z"
+    },
+    {
+      "_id": "refund-fight",
+      "title": "客服推诿应对",
+      "categoryId": "rights",
+      "risk": "中等",
+      "tip": "要求工单编号、明确时限，并保留截图。遇到推诿就逐级升级，不要反复解释同一件事。",
+      "preview": "请记录工单编号并给出处理时限，我会保留本次沟通记录。",
+      "flags": {
+        "hot": false,
+        "risk": true,
+        "new": false
+      },
+      "variables": [
+        {
+          "key": "订单号",
+          "value": ""
+        },
+        {
+          "key": "诉求",
+          "value": ""
+        }
+      ],
+      "variants": [
+        {
+          "name": "客观中立版",
+          "icon": "📝",
+          "content": "订单${订单号}的问题已经沟通两轮，请给出工单编号和处理时限。我的诉求是${诉求}，如今天无法解决请转上级处理。"
+        }
+      ],
+      "sortOrder": 7,
+      "status": "published",
+      "createdAt": "2026-08-24T07:39:42.736Z",
+      "updatedAt": "2026-08-24T07:39:42.736Z"
+    },
+    {
+      "_id": "apology-boss",
+      "title": "工作失误道歉",
+      "categoryId": "apology",
+      "risk": "中等",
+      "tip": "道歉要快、要具体，重点是补救方案和时间点，不要反复解释原因显得推责。",
+      "preview": "这次的失误责任在我，我已经列出补救方案，稍后同步给您。",
+      "flags": {
+        "hot": false,
+        "risk": false,
+        "new": true
+      },
+      "variables": [
+        {
+          "key": "领导称呼",
+          "value": ""
+        },
+        {
+          "key": "补救动作",
+          "value": ""
+        }
+      ],
+      "variants": [
+        {
+          "name": "委婉温和版",
+          "icon": "🫂",
+          "content": "${领导称呼}，这次失误责任在我，很抱歉。我已经启动${补救动作}，最晚明天中午前给您一个完整结果。"
+        },
+        {
+          "name": "正式邮件版",
+          "icon": "📩",
+          "content": "您好，关于本次失误我深表歉意。当前已执行${补救动作}，并将于明日完成复核，避免同类问题再次发生。"
+        }
+      ],
+      "sortOrder": 8,
+      "status": "published",
+      "createdAt": "2026-08-24T07:39:42.736Z",
+      "updatedAt": "2026-08-24T07:39:42.736Z"
+    },
+    {
+      "_id": "gift-thanks",
+      "title": "收到礼物感谢",
+      "categoryId": "social",
+      "risk": "普通",
+      "tip": "感谢要具体：提到礼物细节和你的使用场景，比笼统说谢谢更有温度。",
+      "preview": "礼物我收到了，特别合心意，你费心了，改天请你吃饭。",
+      "flags": {
+        "hot": false,
+        "risk": false,
+        "new": true
+      },
+      "variables": [
+        {
+          "key": "称呼",
+          "value": ""
+        }
+      ],
+      "variants": [
+        {
+          "name": "委婉温和版",
+          "icon": "🫂",
+          "content": "${称呼}，礼物我收到啦，包装和心意都很合我心意，真的很感谢你。"
+        },
+        {
+          "name": "简短微信版",
+          "icon": "💬",
+          "content": "${称呼}，礼物收到啦，太喜欢了，改天请你吃饭！"
+        }
+      ],
+      "sortOrder": 9,
+      "status": "published",
+      "createdAt": "2026-08-24T07:39:42.736Z",
+      "updatedAt": "2026-08-24T07:39:42.736Z"
+    },
+    {
+      "_id": "blind-date",
+      "title": "相亲开场白",
+      "categoryId": "dating",
+      "risk": "普通",
+      "tip": "开场先自我介绍，再抛一个轻松话题，避免查户口式提问。",
+      "preview": "你好呀，我是某某介绍的小周，很高兴认识你。",
+      "flags": {
+        "hot": false,
+        "risk": false,
+        "new": true
+      },
+      "variables": [
+        {
+          "key": "介绍人",
+          "value": ""
+        }
+      ],
+      "variants": [
+        {
+          "name": "委婉温和版",
+          "icon": "🫂",
+          "content": "你好呀，我是${介绍人}介绍的小周，平时喜欢散步和看展，很高兴认识你。"
+        },
+        {
+          "name": "简短微信版",
+          "icon": "💬",
+          "content": "你好，我是${介绍人}介绍的小周，很高兴认识你呀！"
+        }
+      ],
+      "sortOrder": 10,
+      "status": "published",
+      "createdAt": "2026-08-24T07:39:42.736Z",
+      "updatedAt": "2026-08-24T07:39:42.736Z"
+    },
+    {
+      "_id": "teacher-chat",
+      "title": "家长会沟通",
+      "categoryId": "school",
+      "risk": "普通",
+      "tip": "先表达配合意愿，再请教具体观察点，把问题变成共同协作。",
+      "preview": "老师您好，孩子最近在家状态不错，想听听您的观察和建议。",
+      "flags": {
+        "hot": false,
+        "risk": false,
+        "new": true
+      },
+      "variables": [
+        {
+          "key": "老师称呼",
+          "value": ""
+        }
+      ],
+      "variants": [
+        {
+          "name": "委婉温和版",
+          "icon": "🫂",
+          "content": "${老师称呼}，孩子在家状态不错，我们也很想配合学校，想听听您的观察和建议。"
+        }
+      ],
+      "sortOrder": 11,
+      "status": "published",
+      "createdAt": "2026-08-24T07:39:42.736Z",
+      "updatedAt": "2026-08-24T07:39:42.736Z"
+    }
+  ]
+}

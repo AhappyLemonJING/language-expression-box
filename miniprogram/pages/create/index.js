@@ -1,3 +1,5 @@
+const api = require("../../services/api");
+
 const scenarios = [
   "职场沟通",
   "人情社交",
@@ -58,27 +60,29 @@ Page({
       wx.showToast({ title: "请填写标题和正文", icon: "none" });
       return;
     }
-    const variables = this.data.variables.length
-      ? this.data.variables
-      : detectVariables(form.content);
-    const createdList = wx.getStorageSync("createdPhrases") || [];
-    createdList.unshift({
-      id: `custom-${Date.now()}`,
-      title: form.title.trim(),
-      scenario: form.scenario || "自定义场景",
-      content: form.content.trim(),
-      tip: form.tip.trim(),
-      variables,
-    });
-    wx.setStorageSync("createdPhrases", createdList);
-    wx.showToast({
-      title: "保存成功",
-      icon: "success",
-      success: () => {
-        setTimeout(() => {
-          wx.navigateBack();
-        }, 600);
-      },
-    });
+    wx.showLoading({ title: "保存中" });
+    api
+      .createMyPhrase({
+        title: form.title.trim(),
+        categoryId: "custom",
+        content: form.content.trim(),
+        tip: form.tip.trim(),
+      })
+      .then(() => {
+        wx.hideLoading();
+        wx.showToast({
+          title: "保存成功",
+          icon: "success",
+          success: () => {
+            setTimeout(() => {
+              wx.navigateBack();
+            }, 600);
+          },
+        });
+      })
+      .catch((error) => {
+        wx.hideLoading();
+        wx.showToast({ title: error.message || "保存失败", icon: "none" });
+      });
   },
 });

@@ -55,11 +55,11 @@
         <view class="mine-title">{{item.title}}</view>
         <view class="mine-scenario">{{item.scenario}}</view>
       </view>
-      <view class="mine-preview">{{item.content}}</view>
+      <view class="mine-preview">{{item.variants[0].content}}</view>
       <view class="mine-card-foot">
         <view class="mine-vars" wx:if="{{item.variables.length}}">{{item.variables.length}} 个变量</view>
         <view class="mine-vars mine-vars-empty" wx:else>无变量</view>
-        <view class="mine-del" data-index="{{index}}" catchtap="onDeleteTap">删除</view>
+        <view class="mine-del" data-id="{{item.id}}" catchtap="onDeleteTap">删除</view>
       </view>
     </view>
 

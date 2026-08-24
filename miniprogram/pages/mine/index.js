@@ -1,4 +1,4 @@
-const { detailPhrases } = require("../../data.js");
+const api = require("../../services/api");
 
 Page({
   data: {
@@ -12,12 +12,15 @@ Page({
   },
 
   refreshLists() {
-    const favoriteIds = wx.getStorageSync("favoritePhrases") || [];
-    const favoriteList = favoriteIds
-      .map((id) => detailPhrases[id])
-      .filter(Boolean);
-    const createdList = wx.getStorageSync("createdPhrases") || [];
-    this.setData({ favoriteList, createdList });
+    Promise.all([api.getFavorites(), api.getMyPhrases()])
+      .then((results) => {
+        const favoriteList = results[0];
+        const createdList = results[1];
+        this.setData({ favoriteList, createdList });
+      })
+      .catch((error) => {
+        wx.showToast({ title: error.message || "加载失败", icon: "none" });
+      });
   },
 
   onTabTap(e) {
@@ -33,11 +36,16 @@ Page({
   },
 
   onDeleteTap(e) {
-    const index = Number(e.currentTarget.dataset.index);
-    const createdList = this.data.createdList.slice();
-    createdList.splice(index, 1);
-    wx.setStorageSync("createdPhrases", createdList);
-    this.setData({ createdList });
-    wx.showToast({ title: "已删除", icon: "none" });
+    const id = e.currentTarget.dataset.id;
+    if (!id) return;
+    api
+      .deleteMyPhrase(id)
+      .then(() => {
+        wx.showToast({ title: "已删除", icon: "none" });
+        this.refreshLists();
+      })
+      .catch((error) => {
+        wx.showToast({ title: error.message || "删除失败", icon: "none" });
+      });
   },
 });

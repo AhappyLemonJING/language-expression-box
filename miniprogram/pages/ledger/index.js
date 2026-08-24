@@ -1,4 +1,4 @@
-const { ledgerRecords } = require("../../data.js");
+const api = require("../../services/api");
 
 const statusClassMap = {
   待跟进: "pending",
@@ -25,22 +25,26 @@ Page({
   },
 
   refreshRecords() {
-    const stored = wx.getStorageSync("ledgerRecords") || [];
-    const records = stored.length ? stored : ledgerRecords;
-    const decorated = records.map((item) => ({
-      ...item,
-      statusClass: statusClassMap[item.status] || "pending",
-      initial: (item.contact || "未").slice(0, 1),
-    }));
-    this.setData({
-      records: decorated,
-      stats: {
-        all: decorated.length,
-        pending: decorated.filter((item) => item.status === "待跟进").length,
-        closed: decorated.filter((item) => item.status === "已闭环").length,
-      },
-    });
-    this.applyFilter(this.data.activeFilter);
+    api
+      .getLedger()
+      .then((records) => {
+        const decorated = records.map((item) => Object.assign({}, item, {
+          statusClass: statusClassMap[item.status] || "pending",
+          initial: (item.contact || "未").slice(0, 1),
+        }));
+        this.setData({
+          records: decorated,
+          stats: {
+            all: decorated.length,
+            pending: decorated.filter((item) => item.status === "待跟进").length,
+            closed: decorated.filter((item) => item.status === "已闭环").length,
+          },
+        });
+        this.applyFilter(this.data.activeFilter);
+      })
+      .catch((error) => {
+        wx.showToast({ title: error.message || "加载失败", icon: "none" });
+      });
   },
 
   applyFilter(filter) {
@@ -66,18 +70,18 @@ Page({
   },
 
   onCloseTap(e) {
-    const id = Number(e.currentTarget.dataset.id);
-    const records = this.data.records.map((item) => {
-      if (item.id === id) {
-        return { ...item, status: "已闭环", statusClass: "closed" };
-      }
-      return item;
-    });
-    wx.setStorageSync("ledgerRecords", records);
-    this.setData({ records, showSparkle: true });
-    setTimeout(() => {
-      this.setData({ showSparkle: false });
-      this.applyFilter(this.data.activeFilter);
-    }, 900);
+    const id = e.currentTarget.dataset.id;
+    api
+      .closeLedger(id)
+      .then(() => {
+        this.setData({ showSparkle: true });
+        setTimeout(() => {
+          this.setData({ showSparkle: false });
+          this.refreshRecords();
+        }, 900);
+      })
+      .catch((error) => {
+        wx.showToast({ title: error.message || "操作失败", icon: "none" });
+      });
   },
 });
