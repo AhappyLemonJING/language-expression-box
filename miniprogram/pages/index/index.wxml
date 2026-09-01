@@ -61,7 +61,10 @@
             </view>
             <view class="hot-title">{{item.title}}</view>
             <view class="hot-preview">{{item.preview}}</view>
-            <view class="hot-open">查看完整话术 →</view>
+            <view class="hot-card-bottom">
+              <text class="hot-open">查看完整话术 →</text>
+              <text class="hot-like">♥ {{item.likeCount}}</text>
+            </view>
           </view>
         </view>
       </scroll-view>

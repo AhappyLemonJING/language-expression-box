@@ -33,9 +33,10 @@
 
 - `login`：登录并初始化用户
 - `getCategories`：分类列表
-- `getPhrases`：官方话术列表，支持 `scene`、`categoryId`、`keyword`、分页
+- `getPhrases`：公开话术列表（官方模板 + 已发布的自建话术），支持 `scene`、`categoryId`、`keyword`、分页
 - `getPhraseDetail`：话术详情
 - `getMyPhrases`、`createMyPhrase`、`updateMyPhrase`、`deleteMyPhrase`：自建话术 CRUD
+- `publishMyPhrase`、`unpublishMyPhrase`：发布 / 取消发布自建话术，发布后可在首页的最近上新中被其他用户看到
 - `getFavorites`、`addFavorite`、`removeFavorite`：收藏
 - `getLedger`、`createLedger`、`getLedgerDetail`、`updateLedger`、`closeLedger`、`deleteLedger`：沟通台账
 

@@ -36,6 +36,11 @@
   font-weight: 700;
 }
 
+.nav-back {
+  position: absolute;
+  left: 24rpx;
+}
+
 .nav-title {
   max-width: 360rpx;
   font-size: 31rpx;
@@ -44,24 +49,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.nav-right {
-  position: absolute;
-  right: 24rpx;
-  display: flex;
-  gap: 12rpx;
-}
-
-.nav-btn.star {
-  font-size: 30rpx;
-  color: #DCA246;
-}
-
-.nav-btn.star-active {
-  animation: starBounce 0.45s ease-in-out;
-  background: #FFF3DC;
-  border-color: #F2C46D;
 }
 
 .body {
@@ -110,17 +97,94 @@
   flex: 1;
 }
 
-.copy-mini {
+.like-mini,
+.favorite-mini {
   height: 48rpx;
   padding: 0 18rpx;
   display: flex;
   align-items: center;
-  border: 2rpx solid #E9E1F8;
+  gap: 6rpx;
+  border: 2rpx solid #ECE4F8;
   border-radius: 999rpx;
   background: #FFFFFF;
   color: #8B6FE8;
   font-size: 22rpx;
   font-weight: 700;
+}
+
+.like-mini {
+  margin-right: 10rpx;
+}
+
+.like-mini-icon {
+  font-size: 24rpx;
+  color: #E77B68;
+}
+
+.like-active {
+  background: #FFEDE9;
+  border-color: #F2B0A4;
+  color: #C95043;
+}
+
+.favorite-mini-icon {
+  font-size: 24rpx;
+  color: #DCA246;
+}
+
+.favorite-active {
+  background: #FFF3DC;
+  border-color: #F2C46D;
+  color: #A66B16;
+}
+
+.owner-publish-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+  margin: 2rpx 0 20rpx;
+  padding: 22rpx 24rpx;
+  border-radius: 26rpx;
+  background: #F4EDFF;
+  border: 2rpx solid #E2D5F8;
+}
+
+.owner-publish-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.owner-publish-title {
+  font-size: 24rpx;
+  font-weight: 800;
+  color: #6C4EB0;
+}
+
+.owner-publish-desc {
+  margin-top: 6rpx;
+  font-size: 21rpx;
+  line-height: 1.5;
+  color: #8E7EA8;
+}
+
+.owner-publish-btn {
+  flex-shrink: 0;
+  height: 62rpx;
+  padding: 0 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999rpx;
+  background: #8B6FE8;
+  color: #FFFFFF;
+  font-size: 22rpx;
+  font-weight: 700;
+}
+
+.owner-publish-btn-done {
+  background: #E7F6EF;
+  color: #39A87F;
 }
 
 .tip-bubble {
@@ -373,7 +437,7 @@
   bottom: 0;
   z-index: 15;
   display: flex;
-  gap: 14rpx;
+  gap: 10rpx;
   padding: 18rpx 24rpx 22rpx;
   background: #FFFFFF;
   border-top: 2rpx solid #ECE3F7;
@@ -381,6 +445,8 @@
 }
 
 .action-btn {
+  flex: 1 1 0;
+  min-width: 0;
   height: 92rpx;
   display: flex;
   flex-direction: column;
@@ -392,25 +458,6 @@
   color: #5C4F7B;
 }
 
-.action-primary {
-  flex: 1.8;
-  flex-direction: row;
-  gap: 10rpx;
-  background: #8B6FE8;
-  border-color: #8B6FE8;
-  box-shadow: 0 10rpx 20rpx rgba(139, 111, 232, 0.2);
-}
-
-.action-mini {
-  flex: 2;
-  display: flex;
-  gap: 10rpx;
-}
-
-.action-mini .action-btn {
-  flex: 1;
-}
-
 .action-icon {
   font-size: 28rpx;
   line-height: 1.1;
@@ -420,17 +467,7 @@
   margin-top: 4rpx;
   font-size: 20rpx;
   color: #6F638A;
-}
-
-.action-primary .action-icon {
-  font-size: 30rpx;
-}
-
-.action-primary .action-label {
-  margin-top: 0;
-  color: #FFFFFF;
-  font-size: 25rpx;
-  font-weight: 700;
+  white-space: nowrap;
 }
 
 .action-ai .action-label {
@@ -514,15 +551,6 @@
   to {
     transform: scale(1);
     opacity: 1;
-  }
-}
-
-@keyframes starBounce {
-  0%, 100% {
-    transform: scale(1);
-  }
-  40% {
-    transform: scale(1.25) rotate(12deg);
   }
 }
 

@@ -33,6 +33,30 @@ function nowText() {
   return value.replace(/\//g, "-");
 }
 
+function getTodayRange() {
+  const now = new Date();
+  const shanghaiNow = new Date(now.getTime() + 8 * 60 * 60 * 1000);
+  const start = new Date(
+    Date.UTC(shanghaiNow.getUTCFullYear(), shanghaiNow.getUTCMonth(), shanghaiNow.getUTCDate()) -
+      8 * 60 * 60 * 1000
+  );
+  return {
+    start,
+    end: new Date(start.getTime() + 24 * 60 * 60 * 1000),
+  };
+}
+
+function isCreatedToday(value) {
+  const time = new Date(value).getTime();
+  if (Number.isNaN(time)) return false;
+  const range = getTodayRange();
+  return time >= range.start.getTime() && time < range.end.getTime();
+}
+
+function likeCountOf(row) {
+  return Math.max(0, Number(row.likeCount || 0));
+}
+
 function detectVariables(content) {
   const matches = String(content || "").match(/\$\{([^}]+)\}/g) || [];
   return Array.from(new Set(matches.map((item) => item.slice(2, -1)))).map((key) => ({
@@ -65,6 +89,7 @@ function templateToPublic(row, categoryName) {
     variables: row.variables || [],
     variants: row.variants || [],
     sortOrder: row.sortOrder || 0,
+    likeCount: likeCountOf(row),
     status: row.status,
     sourceType: "template",
     createdAt: row.createdAt,
@@ -72,12 +97,14 @@ function templateToPublic(row, categoryName) {
   };
 }
 
-function userPhraseToPublic(row, categoryName) {
+function userPhraseToPublic(row, categoryName, openid) {
+  const isOwner = !!openid && row.userId === openid;
+  const scenario = String(row.scenario || "").trim() || categoryName || "自定义场景";
   return {
     id: row._id,
     title: row.title,
-    scenario: categoryName || "自定义场景",
-    tag: categoryName || "自定义场景",
+    scenario,
+    tag: scenario,
     categoryId: row.categoryId || "custom",
     categoryName: categoryName || null,
     risk: "普通",
@@ -91,7 +118,13 @@ function userPhraseToPublic(row, categoryName) {
         content: row.content || "",
       },
     ],
+    likeCount: likeCountOf(row),
     sourceType: "user",
+    status: row.status,
+    published: row.status === "published",
+    isOwner,
+    canPublish: isOwner && row.status === "active",
+    canUnpublish: isOwner && row.status === "published",
     createdAt: row.createdAt,
     updatedAt: row.updatedAt,
   };
@@ -136,31 +169,95 @@ async function getPhrases(event) {
   const page = Math.max(1, Number(event.page) || 1);
   const pageSize = Math.min(100, Math.max(1, Number(event.pageSize) || 20));
   const scene = String(event.scene || "").trim();
-  const categoryId = String(event.categoryId || "").trim();
+  const categoryId = String(event.categoryId || event.category_id || "").trim();
   const keyword = String(event.keyword || "").trim();
 
-  const result = await db.collection("phrases").where({ status: "published" }).limit(100).get();
+  const [templateResult, userResult] = await Promise.all([
+    db.collection("phrases").where({ status: "published" }).limit(100).get(),
+    db.collection("user_phrases").where({ status: "published" }).limit(100).get(),
+  ]);
   const categoryMap = await getCategoryMap();
+  const rows = [
+    ...templateResult.data.map((row) => ({
+      row,
+      sourceType: "template",
+      phrase: templateToPublic(row, categoryMap[row.categoryId]),
+    })),
+    ...userResult.data.map((row) => ({
+      row,
+      sourceType: "user",
+      phrase: userPhraseToPublic(row, categoryMap[row.categoryId]),
+    })),
+  ];
 
-  let list = result.data
-    .filter((row) => {
-      if (scene === "hot" && !row.flags?.hot) return false;
+  if (scene === "hot") {
+    const today = rows
+      .filter((item) => isCreatedToday(item.row.createdAt))
+      .sort(
+        (a, b) =>
+          likeCountOf(b.row) - likeCountOf(a.row) ||
+          String(b.row.createdAt).localeCompare(String(a.row.createdAt))
+      )
+      .slice(0, 5);
+    const todayIds = new Set(today.map((item) => item.phrase.id));
+    const history = rows
+      .filter((item) => !todayIds.has(item.phrase.id))
+      .sort(
+        (a, b) =>
+          likeCountOf(b.row) - likeCountOf(a.row) ||
+          (a.row.sortOrder || 0) - (b.row.sortOrder || 0) ||
+          String(b.row.createdAt).localeCompare(String(a.row.createdAt))
+      )
+      .slice(0, 5 - today.length);
+    const list = today
+      .concat(history)
+      .slice(0, 5)
+      .map((item) => item.phrase);
+    return ok({ list, total: list.length, page: 1, pageSize: list.length });
+  }
+
+  let list = rows
+    .filter((item) => {
+      const row = item.row;
+      const phrase = item.phrase;
       if (scene === "risk" && !row.flags?.risk) return false;
-      if (scene === "new" && !row.flags?.new) return false;
+      if (scene === "new" && item.sourceType !== "user" && !row.flags?.new) return false;
       if (categoryId && row.categoryId !== categoryId) return false;
       if (keyword) {
-        const text = `${row.title} ${row.preview || ""} ${categoryMap[row.categoryId] || ""}`;
+        const text = `${phrase.title} ${phrase.preview || ""} ${phrase.tag || ""}`;
         if (!text.includes(keyword)) return false;
       }
       return true;
     })
-    .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
+    .sort((a, b) => {
+      if (scene === "new") {
+        const aTime = a.row.publishedAt || a.row.createdAt;
+        const bTime = b.row.publishedAt || b.row.createdAt;
+        return String(bTime).localeCompare(String(aTime));
+      }
+      const aIsTemplate = a.sourceType === "template" ? 0 : 1;
+      const bIsTemplate = b.sourceType === "template" ? 0 : 1;
+      if (aIsTemplate !== bIsTemplate) return aIsTemplate - bIsTemplate;
+      if (a.sourceType === "template") {
+        return (a.row.sortOrder || 0) - (b.row.sortOrder || 0);
+      }
+      return String(b.row.createdAt).localeCompare(String(a.row.createdAt));
+    });
 
   const total = list.length;
   const start = (page - 1) * pageSize;
-  list = list.slice(start, start + pageSize).map((row) => templateToPublic(row, categoryMap[row.categoryId]));
+  list = list.slice(start, start + pageSize).map((item) => item.phrase);
 
   return ok({ list, total, page, pageSize });
+}
+
+async function findLike(targetType, targetId, openid) {
+  const result = await db
+    .collection("likes")
+    .where({ userId: openid, targetType, targetId })
+    .limit(1)
+    .get();
+  return result.data[0] || null;
 }
 
 async function getPhraseDetail(event, openid) {
@@ -171,7 +268,9 @@ async function getPhraseDetail(event, openid) {
   try {
     const result = await db.collection("phrases").doc(id).get();
     if (result.data && result.data.status === "published") {
-      return ok(templateToPublic(result.data, categoryMap[result.data.categoryId]));
+      const phrase = templateToPublic(result.data, categoryMap[result.data.categoryId]);
+      phrase.liked = !!(await findLike("template", id, openid));
+      return ok(phrase);
     }
   } catch (error) {
     // 官方模板不存在时继续查找用户自建话术
@@ -179,31 +278,96 @@ async function getPhraseDetail(event, openid) {
 
   const result = await db
     .collection("user_phrases")
-    .where({ _id: id, userId: openid, status: "active" })
+    .where({ _id: id })
     .limit(1)
     .get();
   if (!result.data.length) return fail(404, "话术不存在");
   const row = result.data[0];
-  return ok(userPhraseToPublic(row, categoryMap[row.categoryId]));
+  const isOwner = row.userId === openid;
+  const visible = row.status === "published" || (isOwner && row.status !== "deleted");
+  if (!visible) return fail(404, "话术不存在");
+  const phrase = userPhraseToPublic(row, categoryMap[row.categoryId], openid);
+  phrase.liked = !!(await findLike("user", id, openid));
+  return ok(phrase);
+}
+
+async function toggleLike(event, openid) {
+  const targetType = event.targetType;
+  const targetId = String(event.targetId || "");
+  if (!["template", "user"].includes(targetType) || !targetId) return fail(400, "点赞参数不合法");
+
+  const collectionName = targetType === "template" ? "phrases" : "user_phrases";
+  let row;
+  try {
+    if (targetType === "template") {
+      const result = await db.collection("phrases").doc(targetId).get();
+      if (!result.data || result.data.status !== "published") return fail(404, "点赞对象不存在");
+      row = result.data;
+    } else {
+      const result = await db
+        .collection("user_phrases")
+        .where({ _id: targetId })
+        .limit(1)
+        .get();
+      if (!result.data.length) return fail(404, "点赞对象不存在");
+      row = result.data[0];
+      const isOwner = row.userId === openid;
+      if (row.status === "deleted" || !(row.status === "published" || isOwner)) {
+        return fail(404, "点赞对象不存在");
+      }
+    }
+  } catch (error) {
+    return fail(404, "点赞对象不存在");
+  }
+
+  const existing = await findLike(targetType, targetId, openid);
+  let liked;
+  let likeCount;
+  if (existing) {
+    await db.collection("likes").doc(existing._id).remove();
+    liked = false;
+    likeCount = Math.max(0, likeCountOf(row) - 1);
+  } else {
+    await db.collection("likes").add({
+      data: {
+        userId: openid,
+        targetType,
+        targetId,
+        createdAt: nowIso(),
+      },
+    });
+    liked = true;
+    likeCount = likeCountOf(row) + 1;
+  }
+
+  await db.collection(collectionName).doc(targetId).update({
+    data: {
+      likeCount,
+      updatedAt: nowIso(),
+    },
+  });
+
+  return ok({ targetType, targetId, liked, likeCount }, liked ? "点赞成功" : "已取消点赞");
 }
 
 async function getMyPhrases(openid) {
   const result = await db
     .collection("user_phrases")
-    .where({ userId: openid, status: "active" })
+    .where({ userId: openid, status: command.in(["active", "published"]) })
     .limit(100)
     .get();
   const categoryMap = await getCategoryMap();
   const rows = result.data
     .slice()
     .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)))
-    .map((row) => userPhraseToPublic(row, categoryMap[row.categoryId]));
+    .map((row) => userPhraseToPublic(row, categoryMap[row.categoryId], openid));
   return ok(rows);
 }
 
 async function createMyPhrase(event, openid) {
   const title = String(event.title || "").trim();
   const content = String(event.content || "").trim();
+  const scenario = String(event.scenario || "").trim();
   if (!title || !content) return fail(400, "标题和正文不能为空");
   if (title.length > 60) return fail(400, "标题不能超过 60 字");
   if (content.length > 2000) return fail(400, "正文不能超过 2000 字");
@@ -215,6 +379,7 @@ async function createMyPhrase(event, openid) {
       _id: id,
       userId: openid,
       title,
+      scenario,
       categoryId: event.categoryId || "custom",
       tip: String(event.tip || "").trim(),
       content,
@@ -232,7 +397,7 @@ async function updateMyPhrase(event, openid) {
   if (!id) return fail(400, "缺少话术 id");
   const result = await db
     .collection("user_phrases")
-    .where({ _id: id, userId: openid, status: "active" })
+    .where({ _id: id, userId: openid, status: command.in(["active", "published"]) })
     .limit(1)
     .get();
   const row = result.data[0];
@@ -245,6 +410,7 @@ async function updateMyPhrase(event, openid) {
   await db.collection("user_phrases").doc(id).update({
     data: {
       title,
+      scenario: event.scenario == null ? row.scenario : String(event.scenario).trim(),
       categoryId: event.categoryId == null ? row.categoryId : event.categoryId,
       tip: event.tip == null ? row.tip : String(event.tip).trim(),
       content,
@@ -260,7 +426,7 @@ async function deleteMyPhrase(event, openid) {
   if (!id) return fail(400, "缺少话术 id");
   const result = await db
     .collection("user_phrases")
-    .where({ _id: id, userId: openid, status: "active" })
+    .where({ _id: id, userId: openid, status: command.in(["active", "published"]) })
     .limit(1)
     .get();
   if (!result.data.length) return fail(404, "话术不存在");
@@ -268,6 +434,49 @@ async function deleteMyPhrase(event, openid) {
     data: { status: "deleted", updatedAt: nowIso() },
   });
   return ok({ id }, "话术已删除");
+}
+
+async function publishMyPhrase(event, openid) {
+  const id = String(event.id || "");
+  if (!id) return fail(400, "缺少话术 id");
+  const result = await db
+    .collection("user_phrases")
+    .where({ _id: id, userId: openid, status: command.in(["active", "published"]) })
+    .limit(1)
+    .get();
+  const row = result.data[0];
+  if (!row) return fail(404, "话术不存在");
+  if (row.status === "published") return ok({ id, status: "published" }, "话术已发布");
+
+  await db.collection("user_phrases").doc(id).update({
+    data: {
+      status: "published",
+      publishedAt: nowIso(),
+      updatedAt: nowIso(),
+    },
+  });
+  return ok({ id, status: "published" }, "发布成功");
+}
+
+async function unpublishMyPhrase(event, openid) {
+  const id = String(event.id || "");
+  if (!id) return fail(400, "缺少话术 id");
+  const result = await db
+    .collection("user_phrases")
+    .where({ _id: id, userId: openid, status: command.in(["active", "published"]) })
+    .limit(1)
+    .get();
+  const row = result.data[0];
+  if (!row) return fail(404, "话术不存在");
+  if (row.status === "active") return ok({ id, status: "active" }, "话术已取消发布");
+
+  await db.collection("user_phrases").doc(id).update({
+    data: {
+      status: "active",
+      updatedAt: nowIso(),
+    },
+  });
+  return ok({ id, status: "active" }, "已取消发布");
 }
 
 async function getFavorites(openid) {
@@ -295,11 +504,14 @@ async function getFavorites(openid) {
       }
       const docs = await db
         .collection("user_phrases")
-        .where({ _id: favorite.targetId, userId: openid, status: "active" })
+        .where({ _id: favorite.targetId })
         .limit(1)
         .get();
       const row = docs.data[0];
-      return row ? userPhraseToPublic(row, categoryMap[row.categoryId]) : null;
+      if (!row) return null;
+      const isOwner = row.userId === openid;
+      const visible = row.status === "published" || (isOwner && row.status !== "deleted");
+      return visible ? userPhraseToPublic(row, categoryMap[row.categoryId], openid) : null;
     })
   );
 
@@ -321,10 +533,15 @@ async function addFavorite(event, openid) {
   } else {
     const docs = await db
       .collection("user_phrases")
-      .where({ _id: targetId, userId: openid, status: "active" })
+      .where({ _id: targetId })
       .limit(1)
       .get();
     if (!docs.data.length) return fail(404, "收藏对象不存在");
+    const row = docs.data[0];
+    const isOwner = row.userId === openid;
+    if (row.status === "deleted" || !(row.status === "published" || isOwner)) {
+      return fail(404, "收藏对象不存在");
+    }
   }
 
   const exists = await db
@@ -503,6 +720,8 @@ exports.main = async (event) => {
         return await getPhrases(event);
       case "getPhraseDetail":
         return await getPhraseDetail(event, openid);
+      case "toggleLike":
+        return await toggleLike(event, openid);
       case "getMyPhrases":
         return await getMyPhrases(openid);
       case "createMyPhrase":
@@ -511,6 +730,10 @@ exports.main = async (event) => {
         return await updateMyPhrase(event, openid);
       case "deleteMyPhrase":
         return await deleteMyPhrase(event, openid);
+      case "publishMyPhrase":
+        return await publishMyPhrase(event, openid);
+      case "unpublishMyPhrase":
+        return await unpublishMyPhrase(event, openid);
       case "getFavorites":
         return await getFavorites(openid);
       case "addFavorite":

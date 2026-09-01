@@ -26,31 +26,31 @@
         "pagePath": "pages/index/index",
         "text": "首页",
         "iconPath": "images/tab/home.png",
-        "selectedIconPath": "images/tab/home.png"
+        "selectedIconPath": "images/tab/home-active.png"
       },
       {
         "pagePath": "pages/category/index",
         "text": "分类",
         "iconPath": "images/tab/category.png",
-        "selectedIconPath": "images/tab/category.png"
+        "selectedIconPath": "images/tab/category-active.png"
       },
       {
         "pagePath": "pages/mine/index",
         "text": "我的话术",
         "iconPath": "images/tab/mine.png",
-        "selectedIconPath": "images/tab/mine.png"
+        "selectedIconPath": "images/tab/mine-active.png"
       },
       {
         "pagePath": "pages/ledger/index",
         "text": "沟通台账",
         "iconPath": "images/tab/ledger.png",
-        "selectedIconPath": "images/tab/ledger.png"
+        "selectedIconPath": "images/tab/ledger-active.png"
       },
       {
         "pagePath": "pages/profile/index",
         "text": "我的",
         "iconPath": "images/tab/profile.png",
-        "selectedIconPath": "images/tab/profile.png"
+        "selectedIconPath": "images/tab/profile-active.png"
       }
     ]
   },

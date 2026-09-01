@@ -2,12 +2,8 @@
 <view class="page">
   <view class="nav" style="padding-top: {{statusBarHeight}}px;">
     <view class="nav-inner">
-      <view class="nav-btn" bindtap="onBack">←</view>
+      <view class="nav-btn nav-back" bindtap="onBack">←</view>
       <view class="nav-title">{{phrase.title}}</view>
-      <view class="nav-right">
-        <view class="nav-btn star {{favorite ? 'star-active' : ''}}" bindtap="onFavoriteTap">{{favorite ? '★' : '☆'}}</view>
-        <view class="nav-btn" bindtap="onShareTap">↗</view>
-      </view>
     </view>
   </view>
 
@@ -16,7 +12,25 @@
       <view class="scenario-pill">{{phrase.scenario}}</view>
       <view class="risk-pill {{riskClass}}">{{phrase.risk}}</view>
       <view class="meta-spacer"></view>
-      <view class="copy-mini" bindtap="onCopyTap">复制</view>
+      <view class="like-mini {{liked ? 'like-active' : ''}}" bindtap="onLikeTap">
+        <text class="like-mini-icon">{{liked ? '♥' : '♡'}}</text>
+        <text>{{likeCount || 0}}</text>
+      </view>
+      <view class="favorite-mini {{favorite ? 'favorite-active' : ''}}" bindtap="onFavoriteTap">
+        <text class="favorite-mini-icon">{{favorite ? '★' : '☆'}}</text>
+        <text>{{favorite ? '已收藏' : '收藏'}}</text>
+      </view>
+    </view>
+
+    <view class="owner-publish-banner" wx:if="{{phrase.sourceType === 'user' && phrase.isOwner}}">
+      <view class="owner-publish-copy">
+        <view class="owner-publish-title">{{phrase.published ? '已发布到话术广场' : '发布到话术广场'}}</view>
+        <view class="owner-publish-desc">{{phrase.published ? '其他人现在可以在首页的最近上新中看到这篇话术' : '发布后，其他人可以在首页的最近上新中看到这篇话术'}}</view>
+      </view>
+      <view
+        class="owner-publish-btn {{phrase.published ? 'owner-publish-btn-done' : ''}}"
+        bindtap="onPublishTap"
+      >{{phrase.published ? '取消发布' : '立即发布'}}</view>
     </view>
 
     <view class="tip-bubble">
@@ -90,24 +104,18 @@
   </view>
 
   <view class="action-bar" style="padding-bottom: {{safeBottom}}px;">
-    <button class="action-btn action-primary" bindtap="onCopyTap">
-      <text class="action-icon">📋</text>
-      <text class="action-label">一键复制</text>
+    <button class="action-btn action-small" bindtap="onRemindTap">
+      <text class="action-icon">⏰</text>
+      <text class="action-label">提醒</text>
     </button>
-    <view class="action-mini">
-      <button class="action-btn" bindtap="onRemindTap">
-        <text class="action-icon">⏰</text>
-        <text class="action-label">提醒</text>
-      </button>
-      <button class="action-btn" bindtap="onLedgerTap">
-        <text class="action-icon">📝</text>
-        <text class="action-label">台账</text>
-      </button>
-      <button class="action-btn action-ai" bindtap="onAiTap">
-        <text class="action-icon">✨</text>
-        <text class="action-label">润色</text>
-      </button>
-    </view>
+    <button class="action-btn action-small" bindtap="onLedgerTap">
+      <text class="action-icon">📝</text>
+      <text class="action-label">台账</text>
+    </button>
+    <button class="action-btn action-small action-ai" bindtap="onAiTap">
+      <text class="action-icon">✨</text>
+      <text class="action-label">润色</text>
+    </button>
   </view>
 
   <view class="mask" wx:if="{{showCopy}}">

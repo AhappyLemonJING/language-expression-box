@@ -64,6 +64,7 @@ Page({
     api
       .createMyPhrase({
         title: form.title.trim(),
+        scenario: form.scenario.trim(),
         categoryId: "custom",
         content: form.content.trim(),
         tip: form.tip.trim(),

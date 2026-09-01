@@ -50,16 +50,24 @@
   </view>
 
   <view class="list" wx:if="{{activeTab === 'created'}}">
-    <view class="mine-card card" wx:for="{{createdList}}" wx:key="id">
+    <view class="mine-card card" wx:for="{{createdList}}" wx:key="id" data-id="{{item.id}}" bindtap="onDetailTap">
       <view class="mine-card-head">
         <view class="mine-title">{{item.title}}</view>
+        <view class="mine-status" wx:if="{{item.published}}">已发布</view>
         <view class="mine-scenario">{{item.scenario}}</view>
       </view>
       <view class="mine-preview">{{item.variants[0].content}}</view>
       <view class="mine-card-foot">
         <view class="mine-vars" wx:if="{{item.variables.length}}">{{item.variables.length}} 个变量</view>
         <view class="mine-vars mine-vars-empty" wx:else>无变量</view>
-        <view class="mine-del" data-id="{{item.id}}" catchtap="onDeleteTap">删除</view>
+        <view class="mine-actions">
+          <view
+            class="mine-publish {{item.published ? 'mine-publish-done' : ''}}"
+            data-id="{{item.id}}"
+            catchtap="onPublishTap"
+          >{{item.published ? '取消发布' : '发布'}}</view>
+          <view class="mine-del" data-id="{{item.id}}" catchtap="onDeleteTap">删除</view>
+        </view>
       </view>
     </view>
 
