@@ -90,6 +90,7 @@
 }
 
 .search-box {
+  margin-top: 24rpx;
   display: flex;
   align-items: center;
   height: 88rpx;
@@ -266,12 +267,24 @@
   white-space: normal;
 }
 
-.hot-open {
+.hot-card-bottom {
   margin-top: auto;
   padding-top: 18rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hot-open {
   font-size: 22rpx;
   color: #8B6FE8;
   font-weight: 600;
+}
+
+.hot-like {
+  font-size: 22rpx;
+  color: #E77B68;
+  font-weight: 700;
 }
 
 .risk-grid {

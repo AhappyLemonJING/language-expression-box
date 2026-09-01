@@ -102,6 +102,17 @@
   font-weight: 700;
 }
 
+.mine-status {
+  flex-shrink: 0;
+  margin-left: 12rpx;
+  padding: 6rpx 14rpx;
+  border-radius: 999rpx;
+  background: #E7F6EF;
+  color: #39A87F;
+  font-size: 20rpx;
+  font-weight: 800;
+}
+
 .mine-preview {
   margin-top: 14rpx;
   font-size: 24rpx;
@@ -175,6 +186,29 @@
   color: #E77B68;
   font-size: 20rpx;
   font-weight: 700;
+}
+
+.mine-actions {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.mine-publish {
+  height: 42rpx;
+  padding: 0 16rpx;
+  display: flex;
+  align-items: center;
+  border-radius: 999rpx;
+  background: #F0EAFE;
+  color: #8B6FE8;
+  font-size: 20rpx;
+  font-weight: 700;
+}
+
+.mine-publish-done {
+  background: #E7F6EF;
+  color: #39A87F;
 }
 
 .fab {

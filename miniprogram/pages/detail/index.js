@@ -19,6 +19,9 @@ Page({
     activeVariant: 0,
     currentContent: "",
     favorite: false,
+    liked: false,
+    likeCount: 0,
+    likeUpdating: false,
     showRemind: false,
     remindDate: "",
     remindTime: "10:00",
@@ -62,6 +65,8 @@ Page({
             variantTabs,
             riskClass,
             currentContent: phrase.variants[0] ? phrase.variants[0].content : "",
+            liked: !!phrase.liked,
+            likeCount: Number(phrase.likeCount || 0),
           },
           () => {
             this.loadFavorite();
@@ -110,13 +115,54 @@ Page({
       });
   },
 
-  onShareTap() {
-    wx.showShareMenu({
-      withShareTicket: true,
-      success: () => {
-        wx.showToast({ title: "点击右上角可分享", icon: "none" });
-      },
-    });
+  onPublishTap() {
+    const phrase = this.data.phrase;
+    if (!phrase.isOwner) return;
+    const shouldPublish = phrase.status !== "published";
+    const action = shouldPublish ? api.publishMyPhrase : api.unpublishMyPhrase;
+    wx.showLoading({ title: shouldPublish ? "发布中" : "处理中" });
+    action(phrase.id)
+      .then((result) => {
+        wx.hideLoading();
+        const updatedPhrase = Object.assign({}, phrase, {
+          status: result.status,
+          published: result.status === "published",
+          canPublish: result.status === "active",
+          canUnpublish: result.status === "published",
+        });
+        this.setData({ phrase: updatedPhrase });
+        wx.showToast({
+          title: shouldPublish ? "已发布，其他人可以看到了" : "已取消发布",
+          icon: "none",
+        });
+      })
+      .catch((error) => {
+        wx.hideLoading();
+        wx.showToast({ title: error.message || "操作失败", icon: "none" });
+      });
+  },
+
+  onLikeTap() {
+    if (this.data.likeUpdating) return;
+    const { id, sourceType } = this.data.phrase;
+    this.setData({ likeUpdating: true });
+    api
+      .toggleLike(sourceType || "template", id)
+      .then((result) => {
+        this.setData({
+          liked: !!result.liked,
+          likeCount: Number(result.likeCount || 0),
+          likeUpdating: false,
+        });
+        wx.showToast({
+          title: result.liked ? "已点赞" : "已取消点赞",
+          icon: "none",
+        });
+      })
+      .catch((error) => {
+        this.setData({ likeUpdating: false });
+        wx.showToast({ title: error.message || "操作失败", icon: "none" });
+      });
   },
 
   onVariantTap(e) {
@@ -214,10 +260,4 @@ Page({
     }, 900);
   },
 
-  onShareAppMessage() {
-    return {
-      title: this.data.phrase.title,
-      path: `/pages/detail/index?id=${this.data.phrase.id}`,
-    };
-  },
 });

@@ -11,6 +11,7 @@ exports.main = async () => {
     "phrases",
     "user_phrases",
     "favorites",
+    "likes",
     "ledger_records",
   ];
 

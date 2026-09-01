@@ -31,6 +31,7 @@ function decorate(list) {
       tagColor: meta.color,
       tagBgColor: meta.bg,
       riskIcon: meta.icon,
+      likeCount: Number(item.likeCount || 0),
     });
   });
 }
@@ -50,16 +51,23 @@ Page({
   onLoad() {
     const winInfo = wx.getWindowInfo ? wx.getWindowInfo() : wx.getSystemInfoSync();
     const statusBarHeight = winInfo.statusBarHeight || 20;
+    const windowWidth = winInfo.windowWidth || winInfo.screenWidth || 375;
+    // 96rpx 是导航内容高度，2rpx 是导航底部分隔线高度。
+    const navInnerHeight = Math.round((96 / 750) * windowWidth);
+    const navBorderHeight = Math.max(1, Math.round((2 / 750) * windowWidth));
     this.setData({
       statusBarHeight,
-      navHeight: statusBarHeight + 44,
+      navHeight: statusBarHeight + navInnerHeight + navBorderHeight,
     });
+  },
+
+  onShow() {
     this.loadData();
   },
 
   loadData() {
     return Promise.all([
-      api.getPhrases({ scene: "hot", pageSize: 20 }),
+      api.getPhrases({ scene: "hot", pageSize: 5 }),
       api.getPhrases({ scene: "risk", pageSize: 20 }),
       api.getPhrases({ scene: "new", pageSize: 20 }),
     ])
